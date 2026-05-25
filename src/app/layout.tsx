@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Marck_Script } from "next/font/google";
+import { Cormorant_Garamond, Great_Vibes } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -8,8 +8,8 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
 });
 
-const marckScript = Marck_Script({
-  subsets: ["cyrillic", "latin"],
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
   weight: "400",
   variable: "--font-cursive",
 });
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${cormorant.variable} ${marckScript.variable}`}
+      className={`${cormorant.variable} ${greatVibes.variable}`}
     >
       <body>{children}</body>
     </html>

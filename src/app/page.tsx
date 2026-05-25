@@ -7,7 +7,6 @@ import SakuraBranch from "@/components/SakuraBranch";
 import SwallowBird from "@/components/SwallowBird";
 import CraneBird from "@/components/CraneBird";
 import PetalFall from "@/components/PetalFall";
-import MountainSilhouette from "@/components/MountainSilhouette";
 
 const WEDDING_DATE = new Date("2026-06-28T16:00:00");
 
@@ -175,11 +174,6 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Mountains between hero and invitation */}
-      <div className="relative -mt-4 pointer-events-none opacity-60">
-        <MountainSilhouette />
-      </div>
-
       {/* === INVITATION SECTION === */}
       <AnimatedSection className="py-20 px-8 text-center relative">
         <div className="absolute top-4 right-0 w-32 opacity-25">
@@ -302,18 +296,13 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
-      {/* Mountains between countdown and location */}
-      <div className="relative pointer-events-none opacity-40">
-        <MountainSilhouette />
-      </div>
-
       {/* === LOCATION SECTION === */}
       <AnimatedSection className="py-20 px-8 text-center relative">
         <div className="absolute top-0 right-0 w-32 opacity-20">
           <SakuraBranch flip />
         </div>
         <div className="absolute top-4 left-4 w-16 opacity-30">
-          <CraneBird className="scale-x-[-1]" />
+          <CraneBird flip />
         </div>
 
         <h2 className="font-cursive text-4xl text-dark mb-8">Локация</h2>
@@ -437,16 +426,7 @@ export default function Home() {
                 <label
                   key={option.value}
                   className="flex items-center gap-3 cursor-pointer group"
-                  onClick={() => setRsvpChoice(option.value)}
                 >
-                  <input
-                    type="radio"
-                    name="rsvp"
-                    value={option.value}
-                    checked={rsvpChoice === option.value}
-                    onChange={() => setRsvpChoice(option.value)}
-                    className="sr-only"
-                  />
                   <div
                     className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
                       rsvpChoice === option.value
