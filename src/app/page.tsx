@@ -106,6 +106,13 @@ export default function Home() {
 
   return (
     <main className="max-w-[430px] mx-auto min-h-screen relative overflow-hidden bg-cream">
+      {/* Watercolor background effect */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden max-w-[430px] mx-auto">
+        <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-gradient-to-bl from-rose/20 to-transparent blur-3xl" />
+        <div className="absolute top-1/3 left-0 w-48 h-48 rounded-full bg-gradient-to-tr from-blush/15 to-transparent blur-3xl" />
+        <div className="absolute bottom-1/4 right-0 w-56 h-56 rounded-full bg-gradient-to-tl from-gold/10 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-gradient-to-r from-rose/10 to-transparent blur-3xl" />
+      </div>
       <PetalFall />
 
       {/* === HERO SECTION === */}
@@ -260,29 +267,29 @@ export default function Home() {
 
         <div className="section-divider mb-10" />
 
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center items-start gap-2">
           {[
             { value: timeLeft.days, label: "дней" },
             { value: timeLeft.hours, label: "часов" },
             { value: timeLeft.minutes, label: "минут" },
             { value: timeLeft.seconds, label: "секунд" },
           ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <motion.span
-                key={item.value}
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                className="text-3xl font-light text-dark tabular-nums"
-              >
-                {String(item.value).padStart(2, "0")}
-              </motion.span>
-              <span className="text-[10px] tracking-[0.15em] uppercase text-muted mt-1">
-                {item.label}
-              </span>
-              {i < 3 && (
-                <span className="absolute mt-2 text-2xl text-gold/50 translate-x-[38px]">
-                  :
+            <div key={i} className="flex items-start">
+              <div className="flex flex-col items-center min-w-[50px]">
+                <motion.span
+                  key={item.value}
+                  initial={{ scale: 1.1 }}
+                  animate={{ scale: 1 }}
+                  className="text-3xl font-light text-dark tabular-nums"
+                >
+                  {String(item.value).padStart(2, "0")}
+                </motion.span>
+                <span className="text-[10px] tracking-[0.15em] uppercase text-muted mt-1">
+                  {item.label}
                 </span>
+              </div>
+              {i < 3 && (
+                <span className="text-2xl text-gold/50 mt-0.5 mx-1">:</span>
               )}
             </div>
           ))}
