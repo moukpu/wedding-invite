@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Great_Vibes } from "next/font/google";
+import { Cormorant_Garamond, Marck_Script } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -8,8 +8,8 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
 });
 
-const greatVibes = Great_Vibes({
-  subsets: ["latin"],
+const marckScript = Marck_Script({
+  subsets: ["cyrillic", "latin"],
   weight: "400",
   variable: "--font-cursive",
 });
@@ -22,8 +22,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Ринат & Динара | Свадьба 28.06.2026",
-  description:
-    "Приглашение на свадьбу Рината и Динары. 28 июня 2026 года в 16:00.",
+  description: "Приглашение на свадьбу Рината и Динары. 28 июня 2026 года в 16:00.",
 };
 
 export default function RootLayout({
@@ -32,10 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ru"
-      className={`${cormorant.variable} ${greatVibes.variable}`}
-    >
+    <html lang="ru" className={`${cormorant.variable} ${marckScript.variable}`}>
       <body>{children}</body>
     </html>
   );

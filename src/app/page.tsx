@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import SakuraBranch from "@/components/SakuraBranch";
-import SwallowBird from "@/components/SwallowBird";
-import CraneBird from "@/components/CraneBird";
 import PetalFall from "@/components/PetalFall";
 
 const WEDDING_DATE = new Date("2026-06-28T16:00:00");
@@ -17,15 +14,15 @@ function AnimatedSection({
   children: React.ReactNode;
   className?: string;
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const ref = useRef<HTMLElement | null>(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <motion.section
       ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 32 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
+      transition={{ duration: 0.9, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -36,7 +33,11 @@ function AnimatedSection({
 function useCountdown(targetDate: Date) {
   const calcTimeLeft = useCallback(() => {
     const diff = targetDate.getTime() - Date.now();
-    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+    if (diff <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }
+
     return {
       days: Math.floor(diff / (1000 * 60 * 60 * 24)),
       hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -62,17 +63,20 @@ function generateCalendar(year: number, month: number) {
   const weeks: (number | null)[][] = [];
   let currentWeek: (number | null)[] = Array(startDay).fill(null);
 
-  for (let day = 1; day <= daysInMonth; day++) {
+  for (let day = 1; day <= daysInMonth; day += 1) {
     currentWeek.push(day);
+
     if (currentWeek.length === 7) {
       weeks.push(currentWeek);
       currentWeek = [];
     }
   }
+
   if (currentWeek.length > 0) {
     while (currentWeek.length < 7) currentWeek.push(null);
     weeks.push(currentWeek);
   }
+
   return weeks;
 }
 
@@ -85,161 +89,150 @@ export default function Home() {
 
   useEffect(() => setMounted(true), []);
 
-  const calendarWeeks = generateCalendar(2026, 5); // June = month 5 (0-indexed)
+  const calendarWeeks = generateCalendar(2026, 5);
   const dayNames = ["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"];
-
-  const handleRsvpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (rsvpName && rsvpChoice) {
-      setRsvpSubmitted(true);
-    }
-  };
-
   const dresscodeColors = [
-    "#2d2d2d", "#5c4a3a", "#8b7355",
-    "#c9a96e", "#d4b896", "#e8d5c0",
-    "#f0e0d0", "#e8c4b8", "#d4a0a0",
-    "#b8d4ce", "#a8c4b8", "#8aaa9e",
+    "#2d2d2d",
+    "#5c4a3a",
+    "#8b7355",
+    "#c9a96e",
+    "#d4b896",
+    "#e8d5c0",
+    "#f0e0d0",
+    "#e8c4b8",
+    "#d4a0a0",
+    "#b8d4ce",
+    "#a8c4b8",
+    "#8aaa9e",
   ];
+
+  const handleRsvpSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (rsvpName && rsvpChoice) setRsvpSubmitted(true);
+  };
 
   if (!mounted) return null;
 
   return (
-    <main className="max-w-[430px] mx-auto min-h-screen relative overflow-hidden bg-cream">
-      {/* Watercolor background effect */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden max-w-[430px] mx-auto">
-        <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-gradient-to-bl from-rose/20 to-transparent blur-3xl" />
-        <div className="absolute top-1/3 left-0 w-48 h-48 rounded-full bg-gradient-to-tr from-blush/15 to-transparent blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-56 h-56 rounded-full bg-gradient-to-tl from-gold/10 to-transparent blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-gradient-to-r from-rose/10 to-transparent blur-3xl" />
+    <main className="invite-page mx-auto min-h-screen max-w-[430px] overflow-hidden bg-cream text-dark">
+      <div className="pointer-events-none fixed inset-0 mx-auto max-w-[430px] overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 opacity-50">
+          <Image
+            src="/images/mountains-subtle.png"
+            alt=""
+            width={1568}
+            height={856}
+            className="h-auto w-full"
+            priority
+          />
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0.86),rgba(250,246,241,0.52),rgba(250,246,241,0.86))]" />
       </div>
+
       <PetalFall />
 
-      {/* === HERO SECTION === */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-0 right-0 w-48 opacity-40">
-            <SakuraBranch flip />
-          </div>
-          <div className="absolute bottom-20 left-0 w-40 opacity-30">
-            <SakuraBranch />
-          </div>
-        </div>
-
+      <section className="relative flex min-h-screen flex-col items-center justify-center px-7 pb-16 pt-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="mb-4 text-sm tracking-[0.3em] uppercase text-muted"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mb-4 text-[11px] uppercase tracking-[0.35em] text-muted"
         >
           Прокрутите вниз
         </motion.div>
 
         <motion.div
-          className="animate-scroll-bounce mb-8"
+          className="animate-scroll-bounce mb-9"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.35 }}
         >
-          <svg width="20" height="30" viewBox="0 0 20 30" fill="none" className="mx-auto">
-            <path d="M10 5 L10 20 M5 15 L10 20 L15 15" stroke="#c9a96e" strokeWidth="1.5" />
+          <svg width="18" height="28" viewBox="0 0 20 30" fill="none" className="mx-auto">
+            <path d="M10 5 L10 20 M5 15 L10 20 L15 15" stroke="#c9a96e" strokeWidth="1.35" />
           </svg>
         </motion.div>
 
-        <motion.h1
-          className="font-cursive text-5xl sm:text-6xl text-dark mb-6 leading-tight"
-          initial={{ opacity: 0, scale: 0.9 }}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          transition={{ duration: 0.95, delay: 0.35 }}
+          className="relative z-10"
         >
-          Мы женимся!
-        </motion.h1>
-
-        <motion.p
-          className="text-base sm:text-lg tracking-[0.15em] uppercase text-dark/80 leading-relaxed max-w-xs"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          И хотим разделить с вами этот важный день!
-        </motion.p>
+          <h1 className="font-cursive text-[53px] leading-none text-dark">Мы женимся!</h1>
+          <p className="mx-auto mt-5 max-w-[250px] text-[14px] uppercase tracking-[0.16em] text-dark/80">
+            И хотим разделить с вами этот важный день!
+          </p>
+        </motion.div>
 
         <motion.div
-          className="absolute bottom-10 right-4 w-16 opacity-50"
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 0.5, x: 0 }}
-          transition={{ duration: 1, delay: 1.2 }}
+          initial={{ opacity: 0, x: 28 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9, delay: 0.5 }}
+          className="pointer-events-none absolute right-0 top-0 w-[78%] opacity-92"
         >
-          <SwallowBird />
+          <Image src="/images/sakura-top.png" alt="" width={1536} height={1024} className="h-auto w-full" priority />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: -28 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9, delay: 0.7 }}
+          className="pointer-events-none absolute bottom-6 left-0 w-[82%] opacity-95"
+        >
+          <Image src="/images/sakura-bottom.png" alt="" width={1536} height={1024} className="h-auto w-full" priority />
+        </motion.div>
+
+        <motion.div
+          animate={{ y: [0, -6, 0], x: [0, 4, 0] }}
+          transition={{ duration: 4.8, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          className="pointer-events-none absolute right-7 top-[12%] w-[84px] opacity-90"
+        >
+          <Image src="/images/swallow.png" alt="" width={1536} height={1536} className="h-auto w-full" priority />
         </motion.div>
       </section>
 
-      {/* === INVITATION SECTION === */}
-      <AnimatedSection className="py-20 px-8 text-center relative">
-        <div className="absolute top-4 right-0 w-32 opacity-25">
-          <SakuraBranch flip />
-        </div>
-
-        <h2 className="font-cursive text-4xl text-dark mb-8">
-          Дорогие друзья и родные!
-        </h2>
-
-        <div className="section-divider mb-8" />
-
-        <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80 max-w-sm mx-auto">
+      <AnimatedSection className="relative px-8 pb-16 pt-2 text-center">
+        <h2 className="font-cursive text-[44px] leading-none text-dark">Дорогие друзья и родные!</h2>
+        <div className="section-divider mb-8 mt-7" />
+        <p className="mx-auto max-w-[310px] text-[13px] uppercase leading-[2.1] tracking-[0.15em] text-dark/80">
           Приглашаем вас на торжество, посвященное нашему бракосочетанию.
         </p>
       </AnimatedSection>
 
-      {/* === DATE & CALENDAR SECTION === */}
-      <AnimatedSection className="py-16 px-8 text-center relative">
-        <div className="absolute top-0 left-0 w-24 opacity-20">
-          <SakuraBranch />
+      <AnimatedSection className="relative px-8 py-14 text-center">
+        <div className="pointer-events-none absolute right-4 top-2 w-[66px] opacity-90">
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4.2, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          >
+            <Image src="/images/swallow.png" alt="" width={1536} height={1536} className="h-auto w-full" />
+          </motion.div>
         </div>
 
-        <motion.div
-          className="absolute top-8 right-8 w-12"
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <SwallowBird />
-        </motion.div>
+        <h2 className="font-cursive text-[42px] leading-none text-dark">Дата</h2>
+        <div className="section-divider mb-8 mt-6" />
 
-        <h2 className="font-cursive text-4xl text-dark mb-8">Дата</h2>
+        <p className="text-[12px] uppercase tracking-[0.24em] text-dark/80">28 июня 2026 года</p>
+        <p className="mb-10 mt-2 text-[12px] uppercase tracking-[0.24em] text-dark/80">Время 16:00</p>
 
-        <div className="section-divider mb-8" />
-
-        <p className="text-sm tracking-[0.2em] uppercase mb-2">
-          28 июня 2026 года
-        </p>
-        <p className="text-sm tracking-[0.2em] uppercase mb-10">Время 16:00</p>
-
-        {/* Calendar Grid */}
-        <div className="max-w-[280px] mx-auto">
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {dayNames.map((d) => (
-              <div
-                key={d}
-                className="text-xs tracking-wider text-muted font-medium py-1"
-              >
-                {d}
+        <div className="mx-auto max-w-[282px]">
+          <div className="mb-2 grid grid-cols-7 gap-1">
+            {dayNames.map((day) => (
+              <div key={day} className="py-1 text-[10px] font-medium tracking-[0.14em] text-muted">
+                {day}
               </div>
             ))}
           </div>
-          {calendarWeeks.map((week, wi) => (
-            <div key={wi} className="grid grid-cols-7 gap-1">
-              {week.map((day, di) => (
+          {calendarWeeks.map((week, weekIndex) => (
+            <div key={weekIndex} className="grid grid-cols-7 gap-1">
+              {week.map((day, dayIndex) => (
                 <div
-                  key={di}
-                  className={`text-sm py-1.5 rounded-full transition-colors ${
-                    day === 28
-                      ? "bg-gold text-white font-semibold"
-                      : day
-                      ? "text-dark/70"
-                      : ""
+                  key={dayIndex}
+                  className={`rounded-full py-1.5 text-[14px] ${
+                    day === 28 ? "bg-gold font-semibold text-white" : day ? "text-dark/70" : ""
                   }`}
                 >
-                  {day || ""}
+                  {day ?? ""}
                 </div>
               ))}
             </div>
@@ -247,175 +240,131 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
-      {/* === COUNTDOWN SECTION === */}
-      <AnimatedSection className="py-20 px-8 text-center relative">
-        <div className="absolute bottom-0 left-0 w-44 opacity-30">
-          <SakuraBranch />
+      <AnimatedSection className="relative px-8 py-16 text-center">
+        <div className="pointer-events-none absolute bottom-2 left-0 w-[96px] opacity-92">
+          <Image src="/images/crane.png" alt="" width={1536} height={1024} className="h-auto w-full" />
         </div>
 
-        <motion.div
-          className="absolute bottom-10 right-4 w-20"
-          animate={{ y: [0, -5, 0], x: [0, 3, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <CraneBird />
-        </motion.div>
+        <h2 className="font-cursive text-[42px] leading-none text-dark">До торжества</h2>
+        <div className="section-divider mb-10 mt-6" />
 
-        <h2 className="font-cursive text-4xl text-dark mb-10">
-          До торжества
-        </h2>
-
-        <div className="section-divider mb-10" />
-
-        <div className="flex justify-center items-start gap-2">
+        <div className="flex justify-center gap-2">
           {[
             { value: timeLeft.days, label: "дней" },
             { value: timeLeft.hours, label: "часов" },
             { value: timeLeft.minutes, label: "минут" },
             { value: timeLeft.seconds, label: "секунд" },
-          ].map((item, i) => (
-            <div key={i} className="flex items-start">
-              <div className="flex flex-col items-center min-w-[50px]">
+          ].map((item, index) => (
+            <div key={item.label} className="flex items-start">
+              <div className="flex min-w-[54px] flex-col items-center">
                 <motion.span
                   key={item.value}
-                  initial={{ scale: 1.1 }}
+                  initial={{ scale: 1.08 }}
                   animate={{ scale: 1 }}
-                  className="text-3xl font-light text-dark tabular-nums"
+                  className="text-[35px] font-light leading-none tabular-nums text-dark"
                 >
                   {String(item.value).padStart(2, "0")}
                 </motion.span>
-                <span className="text-[10px] tracking-[0.15em] uppercase text-muted mt-1">
-                  {item.label}
-                </span>
+                <span className="mt-2 text-[9px] uppercase tracking-[0.2em] text-muted">{item.label}</span>
               </div>
-              {i < 3 && (
-                <span className="text-2xl text-gold/50 mt-0.5 mx-1">:</span>
-              )}
+              {index < 3 && <span className="mx-1 mt-1 text-2xl text-gold/50">:</span>}
             </div>
           ))}
         </div>
       </AnimatedSection>
 
-      {/* === LOCATION SECTION === */}
-      <AnimatedSection className="py-20 px-8 text-center relative">
-        <div className="absolute top-0 right-0 w-32 opacity-20">
-          <SakuraBranch flip />
-        </div>
-        <div className="absolute top-4 left-4 w-16 opacity-30">
-          <CraneBird flip />
+      <AnimatedSection className="relative px-8 py-16 text-center">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 opacity-38">
+          <Image src="/images/mountains-landscape.png" alt="" width={1536} height={1024} className="h-auto w-full" />
         </div>
 
-        <h2 className="font-cursive text-4xl text-dark mb-8">Локация</h2>
+        <h2 className="relative z-10 font-cursive text-[42px] leading-none text-dark">Локация</h2>
+        <div className="section-divider relative z-10 mb-8 mt-6" />
 
-        <div className="section-divider mb-8" />
-
-        <div className="mb-8">
-          <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80">
-            Город Алматы
-          </p>
-          <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80">
-            ул. Абая, 52
-          </p>
-          <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80">
-            Банкетный зал
-          </p>
-          <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80">
-            &laquo;Royal Hall&raquo;
-          </p>
+        <div className="relative z-10 mb-8 space-y-2 text-[13px] uppercase tracking-[0.16em] text-dark/80">
+          <p>Город Алматы</p>
+          <p>ул. Абая, 52</p>
+          <p>Банкетный зал</p>
+          <p>&laquo;Royal Hall&raquo;</p>
         </div>
 
         <a
           href="https://2gis.kz/almaty/geo/9429940000768377"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-gold/30 rounded-full px-6 py-3 text-sm tracking-wider uppercase text-dark hover:bg-gold/10 transition-colors"
+          className="relative z-10 inline-flex items-center gap-3 rounded-full border border-gold/25 bg-white/75 px-6 py-3 text-[12px] uppercase tracking-[0.16em] text-dark backdrop-blur-sm transition-colors hover:bg-white/90"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <rect width="24" height="24" rx="6" fill="#1DAD50" />
-            <text
-              x="12"
-              y="16"
-              textAnchor="middle"
-              fill="white"
-              fontSize="10"
-              fontWeight="bold"
-            >
+            <text x="12" y="16" textAnchor="middle" fill="white" fontSize="10" fontWeight="700">
               2G
             </text>
           </svg>
           Открыть карту
         </a>
-
-        <div className="absolute bottom-0 left-0 w-36 opacity-25">
-          <SakuraBranch />
-        </div>
       </AnimatedSection>
 
-      {/* === DRESSCODE SECTION === */}
-      <AnimatedSection className="py-20 px-8 text-center relative">
-        <div className="absolute top-8 right-0 w-24 opacity-20">
-          <SakuraBranch flip />
-        </div>
-
-        <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80 max-w-xs mx-auto mb-8">
+      <AnimatedSection className="relative px-8 py-16 text-center">
+        <p className="mx-auto mb-8 max-w-[260px] text-[12px] uppercase leading-[2] tracking-[0.15em] text-dark/80">
           Будем рады, если вы подчеркнёте палитру нашей свадьбы
         </p>
-
         <div className="section-divider mb-8" />
 
-        <div className="flex flex-wrap justify-center gap-3 max-w-[280px] mx-auto">
-          {dresscodeColors.map((color, i) => (
+        <div className="mx-auto flex max-w-[290px] flex-wrap justify-center gap-3">
+          {dresscodeColors.map((color, index) => (
             <motion.div
-              key={i}
-              className="w-9 h-9 rounded-full border border-white/50 shadow-sm"
+              key={color}
+              className="h-9 w-9 rounded-full border border-white/60 shadow-sm"
               style={{ backgroundColor: color }}
-              whileHover={{ scale: 1.2 }}
-              initial={{ opacity: 0, scale: 0 }}
+              initial={{ opacity: 0, scale: 0.75 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
+              transition={{ duration: 0.35, delay: index * 0.04 }}
             />
           ))}
         </div>
       </AnimatedSection>
 
-      {/* === RSVP SECTION === */}
-      <AnimatedSection className="py-20 px-8 text-center relative">
-        <div className="absolute top-0 left-0 w-28 opacity-20">
-          <SakuraBranch />
+      <AnimatedSection className="relative px-8 pb-20 pt-16 text-center">
+        <div className="pointer-events-none absolute left-0 top-0 w-[78%] opacity-90">
+          <Image src="/images/sakura-bottom.png" alt="" width={1536} height={1024} className="h-auto w-full scale-x-[-1] opacity-70" />
         </div>
 
-        <h2 className="font-cursive text-4xl text-dark mb-8">Анкета</h2>
+        <div className="pointer-events-none absolute bottom-10 right-4 w-[62px] opacity-90">
+          <motion.div
+            animate={{ y: [0, -7, 0] }}
+            transition={{ duration: 4.4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+          >
+            <Image src="/images/swallow.png" alt="" width={1536} height={1536} className="h-auto w-full" />
+          </motion.div>
+        </div>
 
-        <div className="section-divider mb-8" />
+        <h2 className="relative z-10 font-cursive text-[42px] leading-none text-dark">Анкета</h2>
+        <div className="section-divider relative z-10 mb-8 mt-6" />
 
-        <p className="text-sm tracking-[0.15em] uppercase leading-loose text-dark/80 mb-8">
+        <p className="relative z-10 mb-8 text-[12px] uppercase leading-[2] tracking-[0.15em] text-dark/80">
           Подтвердите, пожалуйста, своё присутствие:
         </p>
 
         {rsvpSubmitted ? (
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-gold/20"
+            className="relative z-10 rounded-[26px] border border-gold/20 bg-white/65 p-8 backdrop-blur-sm"
           >
-            <p className="font-cursive text-2xl text-dark mb-2">Спасибо!</p>
-            <p className="text-sm text-muted">
-              Ваш ответ принят. Мы будем рады видеть вас!
-            </p>
+            <p className="font-cursive text-[34px] text-dark">Спасибо!</p>
+            <p className="mt-2 text-[13px] text-muted">Ваш ответ принят. Мы будем рады видеть вас!</p>
           </motion.div>
         ) : (
-          <form onSubmit={handleRsvpSubmit} className="space-y-6">
-            <div>
-              <input
-                type="text"
-                value={rsvpName}
-                onChange={(e) => setRsvpName(e.target.value)}
-                placeholder="Ваше имя"
-                required
-                className="w-full bg-white/60 backdrop-blur-sm border border-gold/20 rounded-lg px-4 py-3 text-sm tracking-wider text-dark placeholder:text-muted/60 focus:outline-none focus:border-gold/50 transition-colors"
-              />
-            </div>
+          <form onSubmit={handleRsvpSubmit} className="relative z-10 space-y-5">
+            <input
+              type="text"
+              value={rsvpName}
+              onChange={(e) => setRsvpName(e.target.value)}
+              placeholder="Ваше имя"
+              required
+              className="w-full rounded-xl border border-gold/20 bg-white/65 px-4 py-3 text-[13px] tracking-[0.12em] text-dark placeholder:text-muted/60 backdrop-blur-sm outline-none transition-colors focus:border-gold/50"
+            />
 
             <div className="space-y-3 text-left">
               {[
@@ -425,22 +374,25 @@ export default function Home() {
               ].map((option) => (
                 <label
                   key={option.value}
-                  className="flex items-center gap-3 cursor-pointer group"
+                  className="flex cursor-pointer items-center gap-3"
+                  onClick={() => setRsvpChoice(option.value)}
                 >
+                  <input
+                    type="radio"
+                    name="rsvp"
+                    value={option.value}
+                    checked={rsvpChoice === option.value}
+                    onChange={() => setRsvpChoice(option.value)}
+                    className="sr-only"
+                  />
                   <div
-                    className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
-                      rsvpChoice === option.value
-                        ? "border-gold bg-gold"
-                        : "border-gold/30 group-hover:border-gold/60"
+                    className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors ${
+                      rsvpChoice === option.value ? "border-gold bg-gold" : "border-gold/30"
                     }`}
                   >
-                    {rsvpChoice === option.value && (
-                      <div className="w-2 h-2 rounded-full bg-white" />
-                    )}
+                    {rsvpChoice === option.value && <div className="h-2 w-2 rounded-full bg-white" />}
                   </div>
-                  <span className="text-sm tracking-wider uppercase text-dark/80">
-                    {option.label}
-                  </span>
+                  <span className="text-[12px] uppercase tracking-[0.14em] text-dark/80">{option.label}</span>
                 </label>
               ))}
             </div>
@@ -448,36 +400,19 @@ export default function Home() {
             <motion.button
               type="submit"
               disabled={!rsvpName || !rsvpChoice}
-              whileTap={{ scale: 0.97 }}
-              className="w-full bg-dark text-cream py-3.5 rounded-lg text-sm tracking-[0.2em] uppercase transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:bg-dark/90"
+              whileTap={{ scale: 0.98 }}
+              className="w-full rounded-xl bg-dark py-3.5 text-[12px] uppercase tracking-[0.2em] text-cream transition-all disabled:cursor-not-allowed disabled:opacity-40"
             >
               Отправить
             </motion.button>
           </form>
         )}
-
-        <div className="absolute bottom-4 right-0 w-32 opacity-20">
-          <SakuraBranch flip />
-        </div>
-
-        <motion.div
-          className="absolute bottom-20 right-8 w-12"
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <SwallowBird />
-        </motion.div>
       </AnimatedSection>
 
-      {/* === FOOTER === */}
-      <section className="py-12 px-8 text-center">
+      <section className="px-8 pb-12 pt-2 text-center">
         <div className="section-divider mb-6" />
-        <p className="font-cursive text-3xl text-dark mb-2">
-          Ринат & Динара
-        </p>
-        <p className="text-xs tracking-[0.2em] uppercase text-muted">
-          28.06.2026
-        </p>
+        <p className="font-cursive text-[38px] leading-none text-dark">Ринат & Динара</p>
+        <p className="mt-3 text-[11px] uppercase tracking-[0.24em] text-muted">28.06.2026</p>
       </section>
     </main>
   );
