@@ -10,7 +10,7 @@
 
 @theme inline {
   --font-cormorant: var(--font-cormorant);
-  --font-cursive: 'Miama', "Marck Script", cursive;
+  --font-cursive: var(--font-cursive);
   --color-cream: #faf6f1;
   --color-cream-dark: #f0e8de;
   --color-blush: #f5e1d0;
@@ -39,8 +39,9 @@ body {
 }
 
 .font-cursive {
-  font-family: 'Miama', "Marck Script", cursive;
+  font-family: var(--font-cursive), "Marck Script", cursive;
 }
+
 
 
 .invite-page {
