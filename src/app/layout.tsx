@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Marck_Script } from "next/font/google";
+import { Cormorant_Garamond } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -8,9 +9,8 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
 });
 
-const marckScript = Marck_Script({
-  subsets: ["cyrillic", "latin"],
-  weight: "400",
+const cursive = localFont({
+  src: "./fonts/Miama-Regular.ttf",
   variable: "--font-cursive",
 });
 
@@ -31,8 +31,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${cormorant.variable} ${marckScript.variable}`}>
+    <html lang="ru" className={`${cormorant.variable} ${cursive.variable}`}>
       <body>{children}</body>
     </html>
   );
 }
+

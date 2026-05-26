@@ -19,7 +19,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section Container */}
-      <section className="relative w-full min-h-screen flex flex-col items-center justify-start pt-32 px-6 text-center z-10">
+      <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
         
         {/* Sakura Branch - positioned in the upper-left, extending horizontally, transparent background */}
         <div className="absolute left-0 top-0 w-[80%] max-w-[340px] pointer-events-none z-20 select-none">
@@ -33,12 +33,12 @@ export default function Home() {
           />
         </div>
 
-        {/* Flying Swallow Bird - repositioned to be right next to the sakura branch above the petals */}
+        {/* Flying Swallow Bird - repositioned a bit lower to fly over the petals and face the branches */}
         <motion.div
           initial={{ opacity: 0, x: 30, y: -10 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
-          className="absolute left-[54%] top-[55px] w-[75px] pointer-events-none z-20 select-none"
+          className="absolute left-[54%] top-[115px] w-[75px] pointer-events-none z-20 select-none"
         >
           <motion.div
             animate={{ 
@@ -63,9 +63,42 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Content Wrapper */}
-        <div className="relative mt-auto mb-24 z-30 flex flex-col items-center">
-          {/* Content will go here */}
+        {/* Spacer for top illustrations */}
+        <div className="h-[220px]" />
+
+        {/* Couple Names - Styled exactly like photo 3 with a giant light ampersand in the background */}
+        <div className="relative flex flex-col items-center justify-center my-auto w-full max-w-[320px] z-30">
+          {/* Giant decorative ampersand in the background */}
+          <span className="font-cursive text-[180px] font-thin text-gold/15 absolute select-none pointer-events-none z-0 mt-6">
+            &
+          </span>
+          
+          {/* Names offset for elegant calligraphic composition */}
+          <div className="relative z-10 flex flex-col items-center w-full select-none">
+            <motion.span 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="font-cursive text-[76px] text-dark leading-none -translate-x-[45px]"
+            >
+              Ринат
+            </motion.span>
+            
+            <motion.span 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.5 }}
+              className="font-cursive text-[76px] text-dark leading-none translate-x-[45px] mt-6"
+            >
+              Динара
+            </motion.span>
+          </div>
+        </div>
+
+        {/* Small subtitle at the bottom of hero */}
+        <div className="relative z-30 mt-auto flex flex-col items-center">
+          <p className="text-[12px] uppercase tracking-[0.25em] text-muted mb-2">Приглашение на свадьбу</p>
+          <div className="w-[40px] h-[1px] bg-gold/50" />
         </div>
 
       </section>
