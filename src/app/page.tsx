@@ -26,8 +26,8 @@ export default function Home() {
           <Image
             src="/images/sakura-top.png"
             alt="Sakura branch"
-            width={983}
-            height={871}
+            width={920}
+            height={520}
             className="h-auto w-full object-contain origin-top-left"
             priority
           />
@@ -38,7 +38,7 @@ export default function Home() {
           initial={{ opacity: 0, x: 30, y: -10 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
-          className="absolute left-[60%] top-[90px] w-[88px] pointer-events-none z-20 select-none"
+          className="absolute right-[6%] top-[145px] w-[90px] pointer-events-none z-20 select-none"
         >
           <motion.div
             animate={{ 
@@ -55,8 +55,8 @@ export default function Home() {
             <Image
               src="/images/swallow.png"
               alt="Flying swallow bird"
-              width={901}
-              height={901}
+              width={636}
+              height={558}
               className="h-auto w-full object-contain"
               priority
             />
