@@ -20,8 +20,7 @@
        local('BickhamScriptPro'),
        local('BickhamScriptPro-Regular'),
        local('Bickham Script Pro Regular'),
-       url('/fonts/BickhamScriptPro.otf') format('opentype'),
-       url('/fonts/BickhamScriptPro.ttf') format('truetype');
+       url('/fonts/bickhamscriptthree.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
