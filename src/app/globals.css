@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Miama';
+  src: url('/fonts/Miama-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --font-cormorant: var(--font-cormorant);
-  --font-cursive: var(--font-cursive);
+  --font-cursive: 'Miama', "Marck Script", cursive;
   --color-cream: #faf6f1;
   --color-cream-dark: #f0e8de;
   --color-blush: #f5e1d0;
@@ -31,8 +39,9 @@ body {
 }
 
 .font-cursive {
-  font-family: var(--font-cursive), "Marck Script", cursive;
+  font-family: 'Miama', "Marck Script", cursive;
 }
+
 
 .invite-page {
   position: relative;

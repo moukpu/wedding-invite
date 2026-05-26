@@ -1,17 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond } from "next/font/google";
-import localFont from "next/font/local";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["cyrillic", "latin"],
   weight: ["300", "400", "500", "600"],
   variable: "--font-cormorant",
-});
-
-const cursive = localFont({
-  src: "./fonts/Miama-Regular.ttf",
-  variable: "--font-cursive",
 });
 
 export const viewport: Viewport = {
@@ -31,9 +25,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={`${cormorant.variable} ${cursive.variable}`}>
+    <html lang="ru" className={cormorant.variable}>
       <body>{children}</body>
     </html>
   );
 }
+
 
