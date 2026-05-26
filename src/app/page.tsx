@@ -11,11 +11,11 @@ export default function Home() {
           src="/images/mountains-subtle.png"
           alt="Watercolor mountains background"
           fill
-          className="object-cover object-top scale-[1.5] -translate-y-[22%]"
+          className="object-cover object-top scale-[1.08]"
           priority
         />
         {/* Gradient overlay to smoothly evaporate the bottom of the mountains into the cream background */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0)_30%,rgba(250,246,241,1)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0)_20%,rgba(250,246,241,1)_100%)]" />
       </div>
 
       {/* Content wrapper with relative positioning */}
