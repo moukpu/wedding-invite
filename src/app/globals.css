@@ -11,6 +11,11 @@
 @font-face {
   font-family: 'Bickham Script Pro';
   src: local('Bickham Script Pro 3'),
+       local('Bickham Script 3'),
+       local('Bickham Script Three'),
+       local('BickhamScriptPro3'),
+       local('BickhamScript3'),
+       local('BickhamScriptThree'),
        local('Bickham Script Pro'),
        local('BickhamScriptPro'),
        local('BickhamScriptPro-Regular'),
@@ -53,7 +58,7 @@ body {
 }
 
 .font-cursive {
-  font-family: 'Bickham Script Pro', var(--font-cursive), 'Miama', 'Marck Script', cursive;
+  font-family: 'Bickham Script Pro 3', 'Bickham Script 3', 'Bickham Script Three', 'Bickham Script Pro', var(--font-cursive), 'Miama', 'Marck Script', cursive;
 }
 
 

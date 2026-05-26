@@ -38,7 +38,7 @@ export default function Home() {
           initial={{ opacity: 0, x: 30, y: -10 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
-          className="absolute right-[8%] top-[75px] w-[90px] pointer-events-none z-20 select-none"
+          className="absolute right-[4%] top-[75px] w-[90px] pointer-events-none z-20 select-none"
         >
           <motion.div
             animate={{ 
