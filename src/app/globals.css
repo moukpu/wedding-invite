@@ -8,6 +8,20 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Bickham Script Pro';
+  src: local('Bickham Script Pro 3'),
+       local('Bickham Script Pro'),
+       local('BickhamScriptPro'),
+       local('BickhamScriptPro-Regular'),
+       local('Bickham Script Pro Regular'),
+       url('/fonts/BickhamScriptPro.otf') format('opentype'),
+       url('/fonts/BickhamScriptPro.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --font-cormorant: var(--font-cormorant);
   --font-cursive: var(--font-cursive);
@@ -39,7 +53,7 @@ body {
 }
 
 .font-cursive {
-  font-family: var(--font-cursive), "Marck Script", cursive;
+  font-family: 'Bickham Script Pro', var(--font-cursive), 'Miama', 'Marck Script', cursive;
 }
 
 
