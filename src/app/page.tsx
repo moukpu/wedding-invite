@@ -11,7 +11,7 @@ export default function Home() {
           src="/images/mountains-subtle.png"
           alt="Watercolor mountains background"
           fill
-          className="object-cover object-top scale-[1.18]"
+          className="object-cover object-top scale-[1.5] -translate-y-[22%]"
           priority
         />
         {/* Gradient overlay to smoothly evaporate the bottom of the mountains into the cream background */}
