@@ -27,23 +27,23 @@ export default function Home() {
             src="/images/sakura-top.png"
             alt="Sakura branch"
             width={839}
-            height={839}
+            height={747}
             className="h-auto w-full object-contain origin-top-left"
             priority
           />
         </div>
 
-        {/* Flying Swallow Bird - floating on the right side, transparent background */}
+        {/* Flying Swallow Bird - repositioned to be right next to the sakura branch above the petals */}
         <motion.div
-          initial={{ opacity: 0, x: 50, y: -20 }}
+          initial={{ opacity: 0, x: 30, y: -10 }}
           animate={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
-          className="absolute right-8 top-32 w-[90px] pointer-events-none z-20 select-none"
+          className="absolute left-[54%] top-[55px] w-[75px] pointer-events-none z-20 select-none"
         >
           <motion.div
             animate={{ 
-              y: [0, -6, 0],
-              x: [0, 4, 0],
+              y: [0, -5, 0],
+              x: [0, 3, 0],
               rotate: [0, -2, 0]
             }}
             transition={{ 
