@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <main className="invite-page mx-auto max-w-[430px] bg-cream relative overflow-hidden">
+    <main className="invite-page mx-auto min-h-[100vh] max-w-[430px] bg-cream relative overflow-hidden">
       {/* Static Background - Mountains */}
       <div className="pointer-events-none fixed inset-x-0 top-0 h-[65vh] overflow-hidden z-0">
         <Image
@@ -19,7 +19,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section Container */}
-      <section className="relative w-full min-h-screen flex flex-col items-center pt-32 pb-16 px-6 text-center z-10">
+      <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
         
         {/* Sakura Branch - positioned in the upper-left, extending horizontally, transparent background */}
         <div className="absolute left-0 top-0 w-[80%] max-w-[340px] pointer-events-none z-20 select-none">
@@ -95,55 +95,55 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bottom decorations container */}
-        <div className="relative w-full mt-16">
-          {/* Bottom Sakura Branch - right side, mirroring the top */}
+        {/* Bottom Sakura Branch - right side, mirroring the top */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.4, ease: "easeOut", delay: 0.8 }}
+          className="absolute right-0 bottom-[80px] w-[75%] max-w-[320px] pointer-events-none z-20 select-none"
+        >
+          <Image
+            src="/images/sakura-bottom.png"
+            alt="Sakura branch bottom"
+            width={950}
+            height={790}
+            className="h-auto w-full object-contain origin-bottom-right scale-x-[-1]"
+          />
+        </motion.div>
+
+        {/* Crane Bird - flying near the bottom sakura */}
+        <motion.div
+          initial={{ opacity: 0, x: -40, y: 20 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 1.4, ease: "easeOut", delay: 1.2 }}
+          className="absolute left-[10px] bottom-[160px] w-[110px] pointer-events-none z-20 select-none"
+        >
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.4, ease: "easeOut", delay: 0.8 }}
-            className="absolute right-0 top-0 w-[75%] max-w-[320px] pointer-events-none z-20 select-none"
+            animate={{ 
+              y: [0, -6, 0],
+              x: [0, 4, 0],
+              rotate: [0, 3, 0]
+            }}
+            transition={{ 
+              duration: 6, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
           >
             <Image
-              src="/images/sakura-bottom.png"
-              alt="Sakura branch bottom"
-              width={950}
-              height={790}
-              className="h-auto w-full object-contain origin-top-right scale-x-[-1]"
+              src="/images/crane.png"
+              alt="Flying crane bird"
+              width={893}
+              height={713}
+              className="h-auto w-full object-contain"
             />
           </motion.div>
+        </motion.div>
 
-          {/* Crane Bird - flying near the bottom sakura, flipped to face right */}
-          <motion.div
-            initial={{ opacity: 0, x: -40, y: 20 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 1.4, ease: "easeOut", delay: 1.2 }}
-            className="absolute left-[10px] top-[20px] w-[110px] pointer-events-none z-20 select-none"
-          >
-            <motion.div
-              animate={{ 
-                y: [0, -6, 0],
-                x: [0, 4, 0],
-                rotate: [0, 3, 0]
-              }}
-              transition={{ 
-                duration: 6, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-            >
-              <Image
-                src="/images/crane.png"
-                alt="Flying crane bird"
-                width={893}
-                height={713}
-                className="h-auto w-full object-contain scale-x-[-1]"
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* Spacer to give height for the absolute elements */}
-          <div className="h-[280px]" />
+        {/* Small subtitle at the bottom of hero */}
+        <div className="relative z-30 mt-auto flex flex-col items-center">
+          <p className="text-[12px] uppercase tracking-[0.25em] text-muted mb-2">Приглашение на свадьбу</p>
+          <div className="w-[40px] h-[1px] bg-gold/50" />
         </div>
 
       </section>
