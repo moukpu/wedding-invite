@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import PetalFall from "@/components/PetalFall";
 
 const WEDDING_DATE = new Date("2026-06-28T16:00:00");
 
@@ -129,8 +128,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0.86),rgba(250,246,241,0.52),rgba(250,246,241,0.86))]" />
       </div>
 
-      <PetalFall />
-
       <section className="relative flex min-h-screen flex-col items-center justify-center px-7 pb-16 pt-20 text-center">
         <motion.div
           initial={{ opacity: 0, y: -16 }}
@@ -191,7 +188,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <AnimatedSection className="relative px-8 pb-16 pt-2 text-center">
+      <AnimatedSection className="relative mt-16 px-8 pb-16 pt-12 text-center">
         <h2 className="font-cursive text-[44px] leading-none text-dark">Дорогие друзья и родные!</h2>
         <div className="section-divider mb-8 mt-7" />
         <p className="mx-auto max-w-[310px] text-[13px] uppercase leading-[2.1] tracking-[0.15em] text-dark/80">
@@ -199,7 +196,7 @@ export default function Home() {
         </p>
       </AnimatedSection>
 
-      <AnimatedSection className="relative px-8 py-14 text-center">
+      <AnimatedSection className="relative mt-16 px-8 py-16 text-center">
         <div className="pointer-events-none absolute right-4 top-2 w-[66px] opacity-90">
           <motion.div
             animate={{ y: [0, -8, 0] }}
@@ -240,7 +237,7 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="relative px-8 py-16 text-center">
+      <AnimatedSection className="relative mt-16 px-8 py-16 text-center">
         <div className="pointer-events-none absolute bottom-2 left-0 w-[96px] opacity-92">
           <Image src="/images/crane.png" alt="" width={1536} height={1024} className="h-auto w-full" />
         </div>
@@ -273,7 +270,7 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="relative px-8 py-16 text-center">
+      <AnimatedSection className="relative mt-16 px-8 py-16 text-center">
         <div className="pointer-events-none absolute inset-x-0 bottom-0 opacity-38">
           <Image src="/images/mountains-landscape.png" alt="" width={1536} height={1024} className="h-auto w-full" />
         </div>
@@ -304,7 +301,7 @@ export default function Home() {
         </a>
       </AnimatedSection>
 
-      <AnimatedSection className="relative px-8 py-16 text-center">
+      <AnimatedSection className="relative mt-16 px-8 py-16 text-center">
         <p className="mx-auto mb-8 max-w-[260px] text-[12px] uppercase leading-[2] tracking-[0.15em] text-dark/80">
           Будем рады, если вы подчеркнёте палитру нашей свадьбы
         </p>
@@ -325,7 +322,7 @@ export default function Home() {
         </div>
       </AnimatedSection>
 
-      <AnimatedSection className="relative px-8 pb-20 pt-16 text-center">
+      <AnimatedSection className="relative mt-16 px-8 pb-20 pt-16 text-center">
         <div className="pointer-events-none absolute left-0 top-0 w-[78%] opacity-90">
           <Image src="/images/sakura-bottom.png" alt="" width={1536} height={1024} className="h-auto w-full scale-x-[-1] opacity-70" />
         </div>
@@ -409,7 +406,7 @@ export default function Home() {
         )}
       </AnimatedSection>
 
-      <section className="px-8 pb-12 pt-2 text-center">
+      <section className="mt-12 px-8 pb-12 pt-6 text-center">
         <div className="section-divider mb-6" />
         <p className="font-cursive text-[38px] leading-none text-dark">Ринат & Динара</p>
         <p className="mt-3 text-[11px] uppercase tracking-[0.24em] text-muted">28.06.2026</p>
