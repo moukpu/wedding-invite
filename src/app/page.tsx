@@ -88,7 +88,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="font-cursive text-[76px] text-dark leading-none translate-x-[45px] mt-24"
+              className="font-cursive text-[76px] text-dark leading-none translate-x-[45px] mt-32"
             >
               Динара
             </motion.span>
