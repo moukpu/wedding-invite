@@ -67,7 +67,7 @@ export default function Home() {
         <div className="h-[220px]" />
 
         {/* Couple Names - Styled exactly like photo 3 with a giant light ampersand in the background */}
-        <div className="relative flex flex-col items-center justify-center my-auto w-full max-w-[320px] z-30">
+        <div className="relative flex flex-col items-center justify-center my-auto -mt-12 w-full max-w-[320px] z-30">
           {/* Giant decorative ampersand in the background */}
           <span className="font-cursive text-[180px] font-thin text-gold/15 absolute select-none pointer-events-none z-0 mt-6">
             &
