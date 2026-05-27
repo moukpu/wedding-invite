@@ -257,6 +257,36 @@ export default function Home() {
             </p>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="relative -mt-8 -mb-8 h-[150px] w-screen max-w-[430px] overflow-hidden"
+          >
+            <Image
+              src="/images/sakura-branch-minimal-left.png"
+              alt="Sakura branch"
+              width={1024}
+              height={1024}
+              className="absolute left-[-72px] top-[-300px] h-auto w-[520px] max-w-none opacity-25"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full"
+          >
+            <p className="font-cursive text-[clamp(64px,17vw,78px)] text-dark/55 leading-[0.9] text-center">
+              Дорогие друзья и
+              <br />
+              родные!
+            </p>
+          </motion.div>
+
         </section>
       </main>
     </>
