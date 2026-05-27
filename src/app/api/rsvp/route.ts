@@ -1,6 +1,18 @@
 import { NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
 
+function formatAttendance(attendance: string) {
+  if (attendance === 'yes') {
+    return 'ОБЯЗАТЕЛЬНО ПРИДУ';
+  }
+
+  if (attendance === 'no') {
+    return 'НЕ СМОГУ ПРИСУТСТВОВАТЬ';
+  }
+
+  return attendance;
+}
+
 export async function POST(request: Request) {
   try {
     const { name, attendance } = await request.json();
@@ -20,9 +32,9 @@ export async function POST(request: Request) {
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
     if (token && chatId) {
-      const icon = attendance === 'yes' ? '✅' : '❌';
-      const statusText = attendance === 'yes' ? 'Подтвердил(а) присутствие' : 'Не сможет прийти';
-      const text = `${icon} Новая анкета!\n\nИмя: ${name}\nОтвет: ${statusText}`;
+      const answer = formatAttendance(attendance);
+      const icon = answer === 'НЕ СМОГУ ПРИСУТСТВОВАТЬ' ? '❌' : '✅';
+      const text = `${icon} Новая анкета!\n\nИмя: ${name}\nОтвет: ${answer}`;
 
       await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',

@@ -687,7 +687,7 @@ export default function Home() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                       name: name.trim(),
-                      attendance: attendance === "ОБЯЗАТЕЛЬНО ПРИДУ" || attendance === "ПРИДУ С СУПРУГОМ/СУПРУГОЙ" ? "yes" : "no",
+                      attendance,
                     }),
                   });
                   if (res.ok) setIsSubmitted(true);

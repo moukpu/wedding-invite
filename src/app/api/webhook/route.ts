@@ -6,6 +6,18 @@ type GuestRow = {
   attendance: string;
 };
 
+function formatAttendance(attendance: string) {
+  if (attendance === 'yes') {
+    return 'ОБЯЗАТЕЛЬНО ПРИДУ';
+  }
+
+  if (attendance === 'no') {
+    return 'НЕ СМОГУ ПРИСУТСТВОВАТЬ';
+  }
+
+  return attendance;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -20,11 +32,31 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true }, { status: 200 });
       }
       
+      const token = process.env.TELEGRAM_BOT_TOKEN;
+
+      // Handle /start command
+      if (text === '/start') {
+        const reply = '👋 Привет! Я бот для сбора ответов гостей на свадьбу.\n\nКоманды:\n📋 /list — Показать список ответов гостей';
+        if (token) {
+          await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: reply,
+              parse_mode: 'Markdown',
+            }),
+          }).catch(e => console.error("Telegram error:", e));
+        }
+      }
+      
       // Handle /list command
-      if (text === '/list') {
+      else if (text === '/list') {
         const { rows } = await pool.query<GuestRow>('SELECT name, attendance FROM guests ORDER BY created_at DESC');
         
-        let reply = '📋 **Список гостей:**\n\n';
+        let reply = '📋 *Список гостей:*\n\n';
         let yesCount = 0;
         let noCount = 0;
 
@@ -32,17 +64,18 @@ export async function POST(request: Request) {
           reply += 'Пока никто не заполнил анкету.';
         } else {
           rows.forEach((guest, index) => {
-            const icon = guest.attendance === 'yes' ? '✅' : '❌';
-            if (guest.attendance === 'yes') yesCount++;
+            const answer = formatAttendance(guest.attendance);
+            const isAttending = answer !== 'НЕ СМОГУ ПРИСУТСТВОВАТЬ';
+            const icon = isAttending ? '✅' : '❌';
+            if (isAttending) yesCount++;
             else noCount++;
             
-            reply += `${index + 1}. ${guest.name} ${icon}\n`;
+            reply += `${index + 1}. *${guest.name}* — ${answer} ${icon}\n`;
           });
           
-          reply += `\n📊 Итого:\n✅ Придут: ${yesCount}\n❌ Не смогут: ${noCount}`;
+          reply += `\n📊 *Итого:*\n✅ Придут: ${yesCount}\n❌ Не смогут: ${noCount}`;
         }
 
-        const token = process.env.TELEGRAM_BOT_TOKEN;
         if (token) {
           await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
