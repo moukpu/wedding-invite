@@ -153,7 +153,7 @@ export default function Home() {
         <section className="relative w-full min-h-screen flex flex-col items-center justify-start gap-[clamp(44px,7vh,72px)] pt-[clamp(32px,7vh,64px)] pb-24 px-6 text-center z-10 max-w-[430px] mx-auto">
           
           {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
-          <div className="relative left-1/2 z-30 flex w-screen max-w-[430px] -translate-x-[calc(50%-12px)] flex-col items-center justify-center">
+          <div className="relative left-1/2 z-30 flex w-screen max-w-[430px] -translate-x-[calc(50%-24px)] flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
@@ -226,7 +226,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full"
           >
-            <span className="font-serif text-[17px] uppercase tracking-[0.25em] text-muted block translate-x-3 text-center">
+            <span className="font-serif text-[17px] uppercase tracking-[0.25em] text-muted block translate-x-6 text-center">
               Прокрутите вниз
             </span>
           </motion.div>
@@ -252,7 +252,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full"
           >
-            <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-[calc(50%-12px)] font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
+            <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-[calc(50%-24px)] font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
               И хотим разделить с вами этот важный день!
             </p>
           </motion.div>
