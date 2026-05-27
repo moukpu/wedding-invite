@@ -91,6 +91,12 @@ export default function Home() {
         {/* Аудио плеер (скрытый) */}
         <audio ref={audioRef} src="/audio/song.mp3" loop />
 
+        {!isMounted ? (
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="animate-pulse text-[#4A4138] font-serif text-lg">Загрузка...</div>
+          </div>
+        ) : (
+        <>
         {/* Hero Section Container */}
         <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
           
@@ -815,6 +821,8 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+        </>
+      )}
       </main>
     </>
   );
