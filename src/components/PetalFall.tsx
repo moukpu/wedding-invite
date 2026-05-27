@@ -21,7 +21,9 @@ export default function PetalFall() {
       duration: 8 + Math.random() * 6,
       size: 8 + Math.random() * 8,
     }));
-    setPetals(newPetals);
+    const frame = requestAnimationFrame(() => setPetals(newPetals));
+
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   return (
