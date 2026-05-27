@@ -137,8 +137,8 @@ export default function Home() {
                 <Image
                   src="/images/crane.png"
                   alt="Flying crane bird"
-                  width={990}
-                  height={785}
+                  width={898}
+                  height={747}
                   className="h-auto w-full object-contain"
                 />
               </motion.div>
