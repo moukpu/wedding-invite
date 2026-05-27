@@ -338,34 +338,21 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Лепестки сакуры справа, летящие влево */}
+            {/* Лепестки сакуры (ветка) справа, летящие влево */}
             <motion.div
-              initial={{ opacity: 0, x: 40, y: -10 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 1.6, ease: "easeOut", delay: 0.2 }}
-              className="absolute right-[12px] top-[20px] w-[140px]"
+              transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
+              className="absolute right-[-45px] top-[10px] w-[80%] max-w-[340px] pointer-events-none select-none"
             >
-              <motion.div
-                animate={{ 
-                  x: [0, -8, 0],
-                  y: [0, 6, 0],
-                  rotate: [0, -3, 0]
-                }}
-                transition={{ 
-                  duration: 7, 
-                  repeat: Infinity, 
-                  ease: "easeInOut" 
-                }}
-              >
-                <Image
-                  src="/images/petals-wind.png"
-                  alt="Sakura petals in wind"
-                  width={1024}
-                  height={1024}
-                  className="h-auto w-full object-contain"
-                />
-              </motion.div>
+              <Image
+                src="/images/petals-wind.png"
+                alt="Sakura petals in wind"
+                width={780}
+                height={590}
+                className="h-auto w-full object-contain origin-right"
+              />
             </motion.div>
           </div>
 
