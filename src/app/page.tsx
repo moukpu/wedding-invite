@@ -19,6 +19,11 @@ export default function Home() {
   }, [isPlaying]);
 
   const [isMounted, setIsMounted] = useState(false);
+  const [name, setName] = useState("");
+  const [attendance, setAttendance] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;
@@ -661,50 +666,99 @@ export default function Home() {
           </motion.div>
 
           {/* Форма */}
-          <motion.form
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-            className="w-[95%] mt-14 flex flex-col gap-10 text-[#4A4138] text-left"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            {/* Имя */}
-            <div className="w-full">
-              <input
-                type="text"
-                placeholder="ВАШЕ ИМЯ"
-                className="w-full bg-transparent border-b-[1.5px] border-[#4A4138] pb-3 text-[16px] font-serif uppercase tracking-[0.1em] placeholder:text-[#4A4138]/60 focus:outline-none focus:border-[#4A4138] transition-colors"
-              />
-            </div>
-
-            {/* Радиокнопки */}
-            <div className="flex flex-col gap-6 mt-2">
-              {[
-                "ОБЯЗАТЕЛЬНО ПРИДУ",
-                "ПРИДУ С СУПРУГОМ/СУПРУГОЙ",
-                "НЕ СМОГУ ПРИСУТСТВОВАТЬ"
-              ].map((label, idx) => (
-                <label key={idx} className="flex items-start gap-4 cursor-pointer group">
-                  <div className="relative flex items-center justify-center w-[26px] h-[26px] rounded-full border-[1.5px] border-[#4A4138] flex-shrink-0 mt-[2px] group-hover:bg-[#4A4138]/5 transition-colors">
-                    <input type="radio" name="attendance" value={label} className="peer sr-only" />
-                    <div className="w-[14px] h-[14px] rounded-full bg-[#4A4138] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                  </div>
-                  <span className="font-serif text-[clamp(13px,3.8vw,15px)] uppercase tracking-[0.08em] leading-[1.4] text-left">
-                    {label}
-                  </span>
-                </label>
-              ))}
-            </div>
-
-            {/* Кнопка отправки */}
-            <button
-              type="submit"
-              className="w-full mt-6 bg-[#432F2C] text-[#FAF6F1] font-serif uppercase tracking-[0.15em] text-[16px] h-[68px] rounded-full shadow-[0_10px_30px_rgba(67,47,44,0.3)] hover:bg-[#322320] hover:-translate-y-1 transition-all duration-300"
+          {!isSubmitted ? (
+            <motion.form
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+              style={{ marginTop: "48px" }}
+              className="w-[95%] flex flex-col gap-10 text-[#4A4138] text-left"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                if (!name.trim() || !attendance) {
+                  alert("Пожалуйста, заполните все поля");
+                  return;
+                }
+                setIsSubmitting(true);
+                try {
+                  const res = await fetch("/api/rsvp", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      name: name.trim(),
+                      attendance: attendance === "ОБЯЗАТЕЛЬНО ПРИДУ" || attendance === "ПРИДУ С СУПРУГОМ/СУПРУГОЙ" ? "yes" : "no",
+                    }),
+                  });
+                  if (res.ok) setIsSubmitted(true);
+                  else alert("Произошла ошибка. Попробуйте еще раз.");
+                } catch (err) {
+                  alert("Произошла ошибка. Попробуйте еще раз.");
+                } finally {
+                  setIsSubmitting(false);
+                }
+              }}
             >
-              ОТПРАВИТЬ
-            </button>
-          </motion.form>
+              {/* Имя */}
+              <div className="w-full">
+                <input
+                  type="text"
+                  placeholder="ВАШЕ ИМЯ"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={isSubmitting}
+                  className="w-full bg-transparent border-b-[1.5px] border-[#4A4138] pb-3 text-[16px] font-serif uppercase tracking-[0.1em] placeholder:text-[#4A4138]/60 focus:outline-none focus:border-[#4A4138] transition-colors disabled:opacity-50"
+                />
+              </div>
+
+              {/* Радиокнопки */}
+              <div className="flex flex-col gap-6 mt-2">
+                {[
+                  "ОБЯЗАТЕЛЬНО ПРИДУ",
+                  "ПРИДУ С СУПРУГОМ/СУПРУГОЙ",
+                  "НЕ СМОГУ ПРИСУТСТВОВАТЬ"
+                ].map((label, idx) => (
+                  <label key={idx} className="flex items-start gap-4 cursor-pointer group">
+                    <div className="relative flex items-center justify-center w-[26px] h-[26px] rounded-full border-[1.5px] border-[#4A4138] flex-shrink-0 mt-[2px] group-hover:bg-[#4A4138]/5 transition-colors">
+                      <input 
+                        type="radio" 
+                        name="attendance" 
+                        value={label} 
+                        checked={attendance === label}
+                        onChange={(e) => setAttendance(e.target.value)}
+                        disabled={isSubmitting}
+                        className="peer sr-only" 
+                      />
+                      <div className="w-[14px] h-[14px] rounded-full bg-[#4A4138] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                    </div>
+                    <span className="font-serif text-[clamp(13px,3.8vw,15px)] uppercase tracking-[0.08em] leading-[1.4] text-left">
+                      {label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+
+              {/* Кнопка отправки */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full mt-6 bg-[#432F2C] text-[#FAF6F1] font-serif uppercase tracking-[0.15em] text-[16px] h-[68px] rounded-full shadow-[0_10px_30px_rgba(67,47,44,0.3)] hover:bg-[#322320] hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:hover:translate-y-0"
+              >
+                {isSubmitting ? "ОТПРАВКА..." : "ОТПРАВИТЬ"}
+              </button>
+            </motion.form>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              style={{ marginTop: "48px" }}
+              className="w-[95%] p-8 border border-[#4A4138]/20 rounded-2xl bg-white/30 backdrop-blur-sm"
+            >
+              <p className="font-serif text-[18px] uppercase tracking-[0.1em] text-[#4A4138] leading-relaxed">
+                Спасибо!<br/>Ваш ответ записан.
+              </p>
+            </motion.div>
+          )}
 
           {/* Декорация в самом низу (под анкетой) */}
           <div className="relative left-1/2 w-screen h-auto mt-20 -translate-x-1/2 flex flex-row items-end justify-between pointer-events-none select-none z-0 px-0 pb-0">
