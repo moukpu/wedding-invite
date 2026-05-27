@@ -29,23 +29,27 @@ export async function POST(request: Request) {
 
     // Отправляем уведомление в Telegram (если настроены переменные)
     const token = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const chatIdEnv = process.env.TELEGRAM_CHAT_ID;
 
-    if (token && chatId) {
+    if (token && chatIdEnv) {
       const answer = formatAttendance(attendance);
       const icon = answer === 'НЕ СМОГУ ПРИСУТСТВОВАТЬ' ? '❌' : '✅';
       const text = `${icon} Новая анкета!\n\nИмя: ${name}\nОтвет: ${answer}`;
 
-      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: text,
-        }),
-      }).catch(e => console.error("Telegram error:", e));
+      const chatIds = chatIdEnv.split(',').map(id => id.trim());
+      for (const chatId of chatIds) {
+        if (!chatId) continue;
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: text,
+          }),
+        }).catch(e => console.error(`Telegram error for chat ${chatId}:`, e));
+      }
     }
 
     return NextResponse.json({ success: true }, { status: 200 });

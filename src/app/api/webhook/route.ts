@@ -108,7 +108,10 @@ export async function POST(request: Request) {
       const messageId = callbackQuery.message.message_id;
 
       // Проверка прав
-      if (adminChatId && String(chatId) !== adminChatId) {
+      const allowedChatIds = adminChatId ? adminChatId.split(',').map(id => id.trim()) : [];
+      const hasAccess = allowedChatIds.length === 0 || allowedChatIds.includes(String(chatId));
+
+      if (adminChatId && !hasAccess) {
         await fetch(`https://api.telegram.org/bot${token}/answerCallbackQuery`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -256,7 +259,10 @@ export async function POST(request: Request) {
       const text = body.message.text.trim();
       const chatId = body.message.chat.id;
 
-      if (adminChatId && String(chatId) !== adminChatId) {
+      const allowedChatIds = adminChatId ? adminChatId.split(',').map(id => id.trim()) : [];
+      const hasAccess = allowedChatIds.length === 0 || allowedChatIds.includes(String(chatId));
+
+      if (adminChatId && !hasAccess) {
         return NextResponse.json({ ok: true }, { status: 200 });
       }
 
