@@ -18,7 +18,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0)_20%,rgba(250,246,241,1)_100%)]" />
       </div>
 
-      <main className="invite-page mx-auto min-h-[100vh] max-w-[430px] bg-cream/80 relative overflow-hidden">
+      <main className="invite-page min-h-[100vh] bg-cream/80 relative overflow-hidden">
 
         {/* Hero Section Container */}
         <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
@@ -40,7 +40,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 30, y: -10 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
-            className="absolute right-[-8px] top-[75px] w-[90px] pointer-events-none z-20 select-none"
+            className="absolute right-[12px] top-[75px] w-[90px] pointer-events-none z-20 select-none"
           >
             <motion.div
               animate={{ 
@@ -104,7 +104,7 @@ export default function Home() {
               initial={{ opacity: 0, x: 60 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.4, ease: "easeOut", delay: 0.8 }}
-              className="absolute right-0 top-0 w-[80%] max-w-[340px] pointer-events-none z-20 select-none"
+              className="absolute right-0 top-0 w-[75%] max-w-[340px] pointer-events-none z-20 select-none"
             >
               <Image
                 src="/images/sakura-bottom.png"
@@ -120,7 +120,7 @@ export default function Home() {
               initial={{ opacity: 0, x: -50, y: 30 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 1.4, ease: "easeOut", delay: 1.2 }}
-              className="absolute left-[15px] top-[40px] w-[120px] pointer-events-none z-20 select-none"
+              className="absolute left-[12px] top-[40px] w-[120px] pointer-events-none z-20 select-none"
             >
               <motion.div
                 animate={{ 
