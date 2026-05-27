@@ -692,7 +692,7 @@ export default function Home() {
                   });
                   if (res.ok) setIsSubmitted(true);
                   else alert("Произошла ошибка. Попробуйте еще раз.");
-                } catch (err) {
+                } catch {
                   alert("Произошла ошибка. Попробуйте еще раз.");
                 } finally {
                   setIsSubmitting(false);

@@ -2,11 +2,16 @@ import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
 
 const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL,
+  connectionString: process.env.POSTGRES_URL ?? process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
+
+type GuestRow = {
+  name: string;
+  attendance: string;
+};
 
 export async function POST(request: Request) {
   try {
@@ -16,10 +21,15 @@ export async function POST(request: Request) {
     if (body.message && body.message.text) {
       const text = body.message.text.trim();
       const chatId = body.message.chat.id;
+      const adminChatId = process.env.TELEGRAM_CHAT_ID;
+
+      if (adminChatId && String(chatId) !== adminChatId) {
+        return NextResponse.json({ ok: true }, { status: 200 });
+      }
       
       // Handle /list command
       if (text === '/list') {
-        const { rows } = await pool.query('SELECT * FROM guests ORDER BY created_at DESC');
+        const { rows } = await pool.query<GuestRow>('SELECT name, attendance FROM guests ORDER BY created_at DESC');
         
         let reply = '📋 **Список гостей:**\n\n';
         let yesCount = 0;
@@ -28,7 +38,7 @@ export async function POST(request: Request) {
         if (rows.length === 0) {
           reply += 'Пока никто не заполнил анкету.';
         } else {
-          rows.forEach((guest: any, index: number) => {
+          rows.forEach((guest, index) => {
             const icon = guest.attendance === 'yes' ? '✅' : '❌';
             if (guest.attendance === 'yes') yesCount++;
             else noCount++;
