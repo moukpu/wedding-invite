@@ -1,11 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } | null>(null);
+
+  useEffect(() => {
+    let frameId: number | null = null;
+    const targetDate = new Date("2026-06-28T16:00:00").getTime();
+
+    const calculateTimeLeft = () => {
+      const difference = targetDate - new Date().getTime();
+      if (difference <= 0) {
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+      }
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    };
+
+    frameId = requestAnimationFrame(() => {
+      setIsMounted(true);
+      setTimeLeft(calculateTimeLeft());
+    });
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => {
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+      clearInterval(timer);
+    };
+  }, []);
+
+  const calendarWeeks = [
+    [1, 2, 3, 4, 5, 6, 7],
+    [8, 9, 10, 11, 12, 13, 14],
+    [15, 16, 17, 18, 19, 20, 21],
+    [22, 23, 24, 25, 26, 27, 28],
+    [29, 30, null, null, null, null, null],
+  ];
+
   return (
     <>
       {/* Static Background - Mountains (outside main so fixed works with scroll) */}
@@ -20,7 +70,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0)_20%,rgba(250,246,241,1)_100%)]" />
       </div>
 
-      <main className="invite-page min-h-[900vh] bg-cream/80 relative overflow-hidden">
+      <main className="invite-page min-h-screen bg-cream/80 relative overflow-hidden">
 
         {/* Hero Section Container */}
         <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
@@ -150,10 +200,10 @@ export default function Home() {
         </section>
 
         {/* Вторая секция - Приглашение и Кнопка */}
-        <section className="relative w-full min-h-screen flex flex-col items-center justify-start gap-[clamp(44px,7vh,72px)] pt-[clamp(32px,7vh,64px)] pb-24 px-6 text-center z-10 max-w-[430px] mx-auto">
+        <section className="relative left-1/2 w-full min-h-screen max-w-[430px] -translate-x-1/2 flex flex-col items-center justify-start gap-[clamp(44px,7vh,72px)] pt-[clamp(32px,7vh,64px)] pb-24 px-6 text-center z-10">
           
           {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
-          <div className="relative left-1/2 z-30 flex w-screen max-w-[430px] -translate-x-[calc(50%-24px)] flex-col items-center justify-center">
+          <div className="relative z-30 flex w-full flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
@@ -252,7 +302,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full relative z-20"
           >
-            <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-[calc(50%-24px)] font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
+            <p className="font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
               И хотим разделить с вами этот важный день!
             </p>
           </motion.div>
@@ -263,14 +313,14 @@ export default function Home() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-            className="relative -mt-10 mb-6 h-[120px] w-full max-w-[430px] z-10 pointer-events-none select-none"
+            className="relative left-1/2 -mt-10 mb-6 h-[120px] w-screen -translate-x-1/2 z-10 pointer-events-none select-none"
           >
             <Image
               src="/images/sakura-middle.png"
               alt="Delicate sakura branch"
               width={634}
               height={419}
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-auto w-[240px] max-w-none opacity-85"
+              className="absolute left-[24px] top-1/2 -translate-y-1/2 h-auto w-[240px] max-w-none opacity-85"
             />
           </motion.div>
 
@@ -297,7 +347,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full relative z-20"
           >
-            <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-[calc(50%-24px)] font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
+            <p className="font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
               Приглашаем вас на
               <br />
               торжество, посвященное
@@ -344,18 +394,418 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
-              className="absolute right-[-30px] top-[10px] w-[80%] max-w-[340px] pointer-events-none select-none"
+              className="absolute left-1/2 top-[-52px] w-screen -translate-x-1/2 pointer-events-none select-none"
             >
               <Image
                 src="/images/petals-wind.png"
                 alt="Sakura petals in wind"
                 width={1024}
                 height={1024}
-                className="h-auto w-full object-contain origin-right"
+                className="absolute right-[-45px] top-0 h-auto w-[82vw] max-w-[390px] object-contain origin-right"
               />
             </motion.div>
           </div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            style={{ marginTop: "140px" }}
+            className="relative z-20 flex w-full flex-col items-center"
+          >
+            <h3 style={{ transform: "translateY(-20px)" }} className="font-cursive text-[clamp(72px,19vw,88px)] text-dark leading-none text-center mb-14">
+              Дата:
+            </h3>
+            <p className="mx-auto font-serif text-[clamp(17px,4.5vw,20px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center mb-16">
+              28 июня 2026 года
+              <br />
+              Время 16:00
+            </p>
+            <div style={{ marginTop: "30px" }} className="mx-auto w-[340px] max-w-[calc(100vw-48px)] font-serif text-dark">
+              <div className="grid grid-cols-7 gap-y-7 text-[clamp(18px,4.8vw,22px)] uppercase tracking-normal text-muted mb-8">
+                {["ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ", "ВС"].map((day) => (
+                  <span key={day} className="text-center">
+                    {day}
+                  </span>
+                ))}
+              </div>
+              <div className="grid grid-cols-7 gap-y-6 text-[clamp(20px,5.2vw,24px)] tracking-normal text-dark/75">
+                {calendarWeeks.flat().map((day, index) => (
+                  <span key={`${day ?? "empty"}-${index}`} className="relative flex h-8 items-center justify-center">
+                    {day === 28 && (
+                      <span className="absolute top-1/2 left-1/2 h-11 w-11 -translate-x-1/2 -translate-y-[42%] rotate-45 bg-rose/35 blur-[3px] before:absolute before:-left-[22px] before:top-0 before:h-11 before:w-11 before:rounded-full before:bg-rose/35 after:absolute after:-top-[22px] after:left-0 after:h-11 after:w-11 after:rounded-full after:bg-rose/35" />
+                    )}
+                    <span className="relative z-10">{day}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Блок обратного отсчета: До торжества */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
+            className="w-full mt-16 relative z-20 flex flex-col items-center"
+          >
+            <h3 className="font-cursive text-[clamp(60px,16vw,72px)] text-dark leading-none text-center mb-20 select-none">
+              До торжества:
+            </h3>
+            {isMounted && timeLeft ? (
+              <div className="flex items-start justify-center gap-3 sm:gap-5 font-serif text-dark select-none">
+                <div className="flex flex-col items-center min-w-[56px]">
+                  <span className="text-[clamp(28px,7vw,34px)] font-light leading-none">{timeLeft.days}</span>
+                  <span className="text-[11px] tracking-[0.05em] text-muted mt-2 font-sans lowercase">дней</span>
+                </div>
+                <span className="text-[clamp(18px,4.5vw,24px)] text-dark/35 leading-none pt-[2px]">:</span>
+                <div className="flex flex-col items-center min-w-[56px]">
+                  <span className="text-[clamp(28px,7vw,34px)] font-light leading-none">{timeLeft.hours}</span>
+                  <span className="text-[11px] tracking-[0.05em] text-muted mt-2 font-sans lowercase">часов</span>
+                </div>
+                <span className="text-[clamp(18px,4.5vw,24px)] text-dark/35 leading-none pt-[2px]">:</span>
+                <div className="flex flex-col items-center min-w-[56px]">
+                  <span className="text-[clamp(28px,7vw,34px)] font-light leading-none">{timeLeft.minutes}</span>
+                  <span className="text-[11px] tracking-[0.05em] text-muted mt-2 font-sans lowercase">минут</span>
+                </div>
+                <span className="text-[clamp(18px,4.5vw,24px)] text-dark/35 leading-none pt-[2px]">:</span>
+                <div className="flex flex-col items-center min-w-[56px]">
+                  <span className="text-[clamp(28px,7vw,34px)] font-light leading-none">{timeLeft.seconds}</span>
+                  <span className="text-[11px] tracking-[0.05em] text-muted mt-2 font-sans lowercase">секунд</span>
+                </div>
+              </div>
+            ) : (
+              <div className="h-[60px]" />
+            )}
+          </motion.div>
+
+          {/* Декорация перед локацией: сакура слева и журавль справа */}
+          <div className="relative w-full h-[250px] mt-20 pointer-events-none select-none z-20">
+            {/* Сакура слева */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              className="absolute left-1/2 top-[20px] w-screen -translate-x-1/2"
+            >
+              <Image
+                src="/images/sakura-location.png"
+                alt="Sakura branch location"
+                width={945}
+                height={678}
+                className="relative left-[-4px] h-auto w-[65vw] max-w-[270px] object-contain"
+              />
+            </motion.div>
+
+            {/* Журавль справа */}
+            <motion.div
+              initial={{ opacity: 0, x: 50, y: -20 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
+              className="absolute right-[-40px] top-[-50px] w-[67%] max-w-[240px]"
+            >
+              <motion.div
+                animate={{ 
+                  y: [0, -6, 0],
+                  x: [0, 4, 0],
+                  rotate: [0, -2, 0]
+                }}
+                transition={{ 
+                  duration: 6, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <Image
+                  src="/images/crane-location.png"
+                  alt="Crane location bird"
+                  width={1023}
+                  height={1515}
+                  className="h-auto w-full object-contain"
+                />
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Заголовок Локация */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full relative z-20 -mt-6"
+          >
+            <h3 className="font-cursive text-[clamp(64px,17vw,78px)] text-dark leading-none text-center select-none">
+              Локация:
+            </h3>
+          </motion.div>
+
+          {/* Адрес */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
+            className="w-full relative z-20 flex flex-col items-center mt-8"
+          >
+            <p className="font-serif text-[clamp(16px,4.5vw,19px)] uppercase tracking-[0.08em] text-[#4A4138] leading-[1.8] text-center">
+              ГОРОД КАРАГАНДА<br />
+              ПРОСПЕКТ ШАХТЕРОВ, 35/1<br />
+              БАНКЕТНЫЙ ЗАЛ<br />
+              <span className="whitespace-nowrap opacity-90 text-[1.05em] tracking-[0.15em] mt-2 block">` DASTUR HALL `</span>
+            </p>
+          </motion.div>
+
+          {/* Кнопка 2GIS */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            className="w-full relative z-20 mt-[50px] flex justify-center mb-10"
+          >
+            <a 
+              href="https://2gis.kz/karaganda/firm/70000001104916301" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="relative ml-6 flex items-center justify-center bg-[#4E433A] text-[#FAF6F1] font-serif uppercase tracking-[0.1em] text-[17px] h-[72px] w-[270px] rounded-full shadow-[0_10px_30px_rgba(78,67,58,0.35)] hover:bg-[#3d352e] hover:-translate-y-1 transition-all duration-300"
+            >
+              {/* Реальная иконка 2GIS слева */}
+              <div className="absolute -left-14 top-1/2 -translate-y-[50%] w-[86px] h-[86px] z-10 rotate-[-18deg] hover:rotate-0 transition-transform duration-300 drop-shadow-xl pointer-events-none">
+                 <Image src="/images/2gis-real.png" alt="2GIS" width={150} height={150} className="w-full h-full object-contain rounded-[20px]" />
+              </div>
+              <span className="relative top-[1px] opacity-95">ОТКРЫТЬ КАРТУ</span>
+            </a>
+          </motion.div>
+
+          {/* Новый блок с обрезанной птичкой и сакурой */}
+          <div className="relative w-full h-[320px] mt-16 pointer-events-none select-none z-20 overflow-visible">
+            {/* Изображение 1 (Птичка слева) */}
+            <motion.div
+              initial={{ opacity: 0, x: -40, y: 20 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              className="absolute left-1/2 top-[-36px] w-screen -translate-x-1/2"
+            >
+              <motion.div animate={{ y: [0, -8, 0], rotate: [0, -2, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
+                <Image src="/images/block_part1.png" alt="Bird" width={600} height={600} className="relative left-[-32px] h-auto w-[55vw] max-w-[240px] object-contain" />
+              </motion.div>
+            </motion.div>
+
+            {/* Изображение 2 (Сакура справа) */}
+            <motion.div
+              initial={{ opacity: 0, x: 40, y: 20 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
+              className="absolute right-[-5px] top-[24px] w-[70vw] max-w-[320px] translate-x-[15%]"
+            >
+              <motion.div animate={{ y: [0, -5, 0], rotate: [0, 2, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }} className="origin-right">
+                <Image src="/images/block_part2.png" alt="Sakura" width={600} height={600} className="h-auto w-full object-contain origin-right" />
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Третья секция - Дресс-код */}
+        <section className="relative left-1/2 w-full min-h-[50vh] max-w-[430px] -translate-x-1/2 flex flex-col items-center justify-center pt-8 pb-[160px] px-6 text-center z-10">
+          {/* Заголовок */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full relative z-20 flex flex-col items-center"
+          >
+            <h3 className="font-cursive text-[clamp(64px,17vw,78px)] text-dark leading-none text-center select-none">
+              Дресс-код:
+            </h3>
+          </motion.div>
+
+          {/* Текст */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
+            style={{ marginTop: "60px" }}
+            className="w-full relative z-20 flex flex-col items-center"
+          >
+            <p className="font-serif text-[clamp(15px,4vw,17px)] uppercase tracking-[0.11em] text-[#4A4138] leading-[1.9] text-center w-[95%]">
+              БУДЕМ РАДЫ, ЕСЛИ ВЫ<br/>
+              ПОДДЕРЖИТЕ ПАЛИТРУ НАШЕЙ<br/>
+              СВАДЬБЫ
+            </p>
+          </motion.div>
+
+          {/* Палитра */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            style={{ marginTop: "76px" }}
+            className="w-full relative z-20 flex justify-center"
+          >
+            <div className="w-[88%] max-w-[340px]">
+              <svg viewBox="0 0 320 140" className="w-full h-auto drop-shadow-[0_15px_30px_rgba(78,67,58,0.08)]">
+                {/* Белая плашка */}
+                <rect x="0" y="0" width="320" height="140" rx="36" fill="white" />
+                
+                {/* 1-й ряд */}
+                <circle cx="42" cy="42" r="22" fill="#F4E2E6" />
+                <circle cx="101" cy="42" r="22" fill="#EED4CD" />
+                <circle cx="160" cy="42" r="22" fill="#CD7E8D" />
+                <circle cx="219" cy="42" r="22" fill="#9FA8CA" />
+                <circle cx="278" cy="42" r="22" fill="#E2BD6D" />
+
+                {/* 2-й ряд */}
+                <circle cx="42" cy="98" r="22" fill="#463330" />
+                <circle cx="101" cy="98" r="22" fill="#83765D" />
+                <circle cx="160" cy="98" r="22" fill="#76743E" />
+                <circle cx="219" cy="98" r="22" fill="#A2BD96" />
+                <circle cx="278" cy="98" r="22" fill="#EBE0CA" />
+              </svg>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Четвертая секция - Анкета */}
+        <section
+          style={{ marginTop: "96px" }}
+          className="relative left-1/2 w-full max-w-[430px] -translate-x-1/2 flex flex-col items-center pt-32 pb-5 px-10 z-10 text-center"
+        >
+          {/* Заголовок */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full flex flex-col items-center"
+          >
+            <h3 className="font-cursive text-[clamp(64px,17vw,78px)] text-dark leading-none text-center select-none">
+              Анкета:
+            </h3>
+          </motion.div>
+
+          {/* Текст */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
+            className="w-full flex flex-col items-center mt-12"
+          >
+            <p className="font-serif text-[clamp(15px,4vw,17px)] uppercase tracking-[0.08em] text-[#4A4138] leading-[1.8] text-center w-full">
+              ПОДТВЕРДИТЕ, ПОЖАЛУЙСТА,<br/>СВОЁ ПРИСУТСТВИЕ:
+            </p>
+          </motion.div>
+
+          {/* Форма */}
+          <motion.form
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            className="w-[95%] mt-14 flex flex-col gap-10 text-[#4A4138] text-left"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            {/* Имя */}
+            <div className="w-full">
+              <input
+                type="text"
+                placeholder="ВАШЕ ИМЯ"
+                className="w-full bg-transparent border-b-[1.5px] border-[#4A4138] pb-3 text-[16px] font-serif uppercase tracking-[0.1em] placeholder:text-[#4A4138]/60 focus:outline-none focus:border-[#4A4138] transition-colors"
+              />
+            </div>
+
+            {/* Радиокнопки */}
+            <div className="flex flex-col gap-6 mt-2">
+              {[
+                "ОБЯЗАТЕЛЬНО ПРИДУ",
+                "ПРИДУ С СУПРУГОМ/СУПРУГОЙ",
+                "НЕ СМОГУ ПРИСУТСТВОВАТЬ"
+              ].map((label, idx) => (
+                <label key={idx} className="flex items-start gap-4 cursor-pointer group">
+                  <div className="relative flex items-center justify-center w-[26px] h-[26px] rounded-full border-[1.5px] border-[#4A4138] flex-shrink-0 mt-[2px] group-hover:bg-[#4A4138]/5 transition-colors">
+                    <input type="radio" name="attendance" value={label} className="peer sr-only" />
+                    <div className="w-[14px] h-[14px] rounded-full bg-[#4A4138] opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                  </div>
+                  <span className="font-serif text-[clamp(13px,3.8vw,15px)] uppercase tracking-[0.08em] leading-[1.4] text-left">
+                    {label}
+                  </span>
+                </label>
+              ))}
+            </div>
+
+            {/* Кнопка отправки */}
+            <button
+              type="submit"
+              className="w-full mt-6 bg-[#432F2C] text-[#FAF6F1] font-serif uppercase tracking-[0.15em] text-[16px] h-[68px] rounded-full shadow-[0_10px_30px_rgba(67,47,44,0.3)] hover:bg-[#322320] hover:-translate-y-1 transition-all duration-300"
+            >
+              ОТПРАВИТЬ
+            </button>
+          </motion.form>
+
+          {/* Декорация в самом низу (под анкетой) */}
+          <div className="relative left-1/2 w-screen h-auto mt-20 -translate-x-1/2 flex flex-row items-end justify-between pointer-events-none select-none z-0 px-0 pb-0">
+            {/* Сакура слева */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              className="w-[60vw] max-w-[270px] origin-bottom-left"
+            >
+              <motion.div
+                animate={{ rotate: [0, 1.5, 0], y: [0, -3, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Image
+                  src="/images/sakura-location.png"
+                  alt="Sakura footer branch"
+                  width={945}
+                  height={678}
+                  className="h-auto w-full object-contain"
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Птичка справа */}
+            <motion.div
+              initial={{ opacity: 0, x: 30, y: 10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+              className="w-[30%] pb-[26px]"
+            >
+              <motion.div
+                animate={{ 
+                  y: [0, -8, 0],
+                  x: [0, -5, 0],
+                  rotate: [0, 4, 0]
+                }}
+                transition={{ 
+                  duration: 5, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <Image
+                  src="/images/swallow.png"
+                  alt="Swallow bird"
+                  width={636}
+                  height={558}
+                  className="h-auto w-full object-contain -mr-2"
+                />
+              </motion.div>
+            </motion.div>
+          </div>
         </section>
       </main>
     </>
