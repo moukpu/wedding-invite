@@ -36,7 +36,7 @@ export async function POST(request: Request) {
 
       // Handle /start command
       if (text === '/start') {
-        const reply = '👋 Привет! Я бот для сбора ответов гостей на свадьбу.\n\nКоманды:\n📋 /list — Показать список ответов гостей';
+        const reply = '👋 Привет! Я бот для сбора ответов гостей на свадьбу.\n\nКоманды:\n📋 /list — Показать список ответов гостей\n🗑 /clear — Удалить абсолютно ВСЕ ответы из базы\n❌ /delete <имя> — Удалить ответ гостя по его имени';
         if (token) {
           await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
@@ -88,6 +88,89 @@ export async function POST(request: Request) {
               parse_mode: 'Markdown',
             }),
           }).catch(e => console.error("Telegram error:", e));
+        }
+      }
+
+      // Handle /clear command
+      else if (text === '/clear') {
+        try {
+          await pool.query('DELETE FROM guests');
+          const reply = '🗑 Все ответы гостей были успешно удалены из базы данных.';
+          if (token) {
+            await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: reply,
+                parse_mode: 'Markdown',
+              }),
+            }).catch(e => console.error("Telegram error:", e));
+          }
+        } catch (dbError) {
+          console.error('Error clearing database:', dbError);
+          const reply = '❌ Произошла ошибка при очистке базы данных.';
+          if (token) {
+            await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                chat_id: chatId,
+                text: reply,
+                parse_mode: 'Markdown',
+              }),
+            }).catch(e => console.error("Telegram error:", e));
+          }
+        }
+      }
+
+      // Handle /delete <name> command
+      else if (text.startsWith('/delete ')) {
+        const nameToDelete = text.substring(8).trim();
+        if (nameToDelete) {
+          try {
+            const res = await pool.query('DELETE FROM guests WHERE name ILIKE $1', [nameToDelete]);
+            const deletedCount = res.rowCount ?? 0;
+            let reply = '';
+            if (deletedCount > 0) {
+              reply = `🗑 Ответ(ы) от *${nameToDelete}* (${deletedCount} шт.) успешно удален(ы) из базы данных.`;
+            } else {
+              reply = `🔍 Гость с именем *${nameToDelete}* не найден в базе данных.`;
+            }
+            if (token) {
+              await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  chat_id: chatId,
+                  text: reply,
+                  parse_mode: 'Markdown',
+                }),
+              }).catch(e => console.error("Telegram error:", e));
+            }
+          } catch (dbError) {
+            console.error('Error deleting guest:', dbError);
+            const reply = '❌ Произошла ошибка при удалении гостя.';
+            if (token) {
+              await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  chat_id: chatId,
+                  text: reply,
+                  parse_mode: 'Markdown',
+                }),
+              }).catch(e => console.error("Telegram error:", e));
+            }
+          }
         }
       }
     }
