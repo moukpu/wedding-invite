@@ -1,11 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch(e => console.error("Playback failed:", e));
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
+
   const [isMounted, setIsMounted] = useState(false);
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
@@ -71,6 +83,8 @@ export default function Home() {
       </div>
 
       <main className="invite-page min-h-screen bg-cream/80 relative overflow-hidden">
+        {/* Аудио плеер (скрытый) */}
+        <audio ref={audioRef} src="/audio/song.mp3" loop />
 
         {/* Hero Section Container */}
         <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
