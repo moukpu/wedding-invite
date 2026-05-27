@@ -289,6 +289,23 @@ export default function Home() {
             </p>
           </motion.div>
 
+          {/* Блок 5: Приглашение на торжество */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full relative z-20"
+          >
+            <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-[calc(50%-24px)] font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
+              Приглашаем вас на
+              <br />
+              торжество, посвященное
+              <br />
+              нашему бракосочетанию.
+            </p>
+          </motion.div>
+
         </section>
       </main>
     </>
