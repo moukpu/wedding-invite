@@ -153,7 +153,7 @@ export default function Home() {
         <section className="relative w-full min-h-screen flex flex-col items-center justify-start gap-[clamp(44px,7vh,72px)] pt-[clamp(32px,7vh,64px)] pb-24 px-6 text-center z-10 max-w-[430px] mx-auto">
           
           {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
-          <div className="relative z-30 flex w-full flex-col items-center justify-center">
+          <div className="relative left-1/2 z-30 flex w-screen max-w-[430px] -translate-x-1/2 flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
@@ -239,7 +239,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full"
           >
-            <h2 className="font-cursive text-[clamp(68px,18vw,83px)] text-dark leading-none text-center max-w-[360px] mx-auto">
+            <h2 className="font-cursive whitespace-nowrap text-[clamp(76px,20vw,83px)] text-dark leading-none text-center">
               Мы женимся!
             </h2>
           </motion.div>
@@ -252,7 +252,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full"
           >
-            <p className="font-serif text-[clamp(16px,4.4vw,18px)] uppercase tracking-[0.15em] text-dark leading-relaxed max-w-[330px] mx-auto text-center">
+            <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-1/2 font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
               И хотим разделить с вами этот важный день!
             </p>
           </motion.div>
