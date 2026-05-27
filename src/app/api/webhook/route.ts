@@ -1,5 +1,9 @@
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
+
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 export async function POST(request: Request) {
   try {
@@ -12,7 +16,7 @@ export async function POST(request: Request) {
       
       // Handle /list command
       if (text === '/list') {
-        const { rows } = await sql`SELECT * FROM guests ORDER BY created_at DESC`;
+        const { rows } = await pool.query('SELECT * FROM guests ORDER BY created_at DESC');
         
         let reply = '📋 **Список гостей:**\n\n';
         let yesCount = 0;
@@ -21,7 +25,7 @@ export async function POST(request: Request) {
         if (rows.length === 0) {
           reply += 'Пока никто не заполнил анкету.';
         } else {
-          rows.forEach((guest, index) => {
+          rows.forEach((guest: any, index: number) => {
             const icon = guest.attendance === 'yes' ? '✅' : '❌';
             if (guest.attendance === 'yes') yesCount++;
             else noCount++;
@@ -56,3 +60,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true }, { status: 200 }); // Still return 200 to telegram
   }
 }
+

@@ -1,5 +1,9 @@
-import { sql } from '@vercel/postgres';
+import { Pool } from 'pg';
 import { NextResponse } from 'next/server';
+
+const pool = new Pool({
+  connectionString: process.env.POSTGRES_URL,
+});
 
 export async function POST(request: Request) {
   try {
@@ -10,10 +14,10 @@ export async function POST(request: Request) {
     }
 
     // Сохраняем в базу данных
-    await sql`
-      INSERT INTO guests (name, attendance)
-      VALUES (${name}, ${attendance})
-    `;
+    await pool.query(
+      'INSERT INTO guests (name, attendance) VALUES ($1, $2)',
+      [name, attendance]
+    );
 
     // Отправляем уведомление в Telegram (если настроены переменные)
     const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -42,3 +46,4 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
