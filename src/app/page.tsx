@@ -666,7 +666,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-            className="w-[95%] mt-32 flex flex-col gap-10 text-[#4A4138] text-left"
+            className="w-[95%] mt-14 flex flex-col gap-10 text-[#4A4138] text-left"
             onSubmit={(e) => e.preventDefault()}
           >
             {/* Имя */}
