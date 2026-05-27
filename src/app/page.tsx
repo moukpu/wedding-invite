@@ -320,7 +320,7 @@ export default function Home() {
               alt="Delicate sakura branch"
               width={634}
               height={419}
-              className="absolute left-0 top-1/2 -translate-y-1/2 h-auto w-[38vw] max-w-[240px] min-w-[160px] opacity-85"
+              className="absolute left-[-12%] top-1/2 -translate-y-1/2 h-auto w-[45vw] max-w-[280px] min-w-[180px] opacity-85"
             />
           </motion.div>
 
