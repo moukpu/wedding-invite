@@ -306,6 +306,69 @@ export default function Home() {
             </p>
           </motion.div>
 
+          {/* Декорация после приглашения: розовая птичка слева и лепестки справа */}
+          <div className="relative w-full h-[220px] mt-10 pointer-events-none select-none z-20">
+            {/* Розовая птичка слева, летящая вправо */}
+            <motion.div
+              initial={{ opacity: 0, x: -40, y: 10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              className="absolute left-[12px] top-[40px] w-[110px]"
+            >
+              <motion.div
+                animate={{ 
+                  y: [0, -6, 0],
+                  x: [0, 4, 0],
+                  rotate: [0, 2, 0]
+                }}
+                transition={{ 
+                  duration: 5, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <Image
+                  src="/images/swallow-pink.png"
+                  alt="Swallow bird with pink wings"
+                  width={1024}
+                  height={1024}
+                  className="h-auto w-full object-contain"
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Лепестки сакуры справа, летящие влево */}
+            <motion.div
+              initial={{ opacity: 0, x: 40, y: -10 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.6, ease: "easeOut", delay: 0.2 }}
+              className="absolute right-[12px] top-[20px] w-[140px]"
+            >
+              <motion.div
+                animate={{ 
+                  x: [0, -8, 0],
+                  y: [0, 6, 0],
+                  rotate: [0, -3, 0]
+                }}
+                transition={{ 
+                  duration: 7, 
+                  repeat: Infinity, 
+                  ease: "easeInOut" 
+                }}
+              >
+                <Image
+                  src="/images/petals-wind.png"
+                  alt="Sakura petals in wind"
+                  width={1024}
+                  height={1024}
+                  className="h-auto w-full object-contain"
+                />
+              </motion.div>
+            </motion.div>
+          </div>
+
         </section>
       </main>
     </>
