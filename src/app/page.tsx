@@ -149,11 +149,11 @@ export default function Home() {
 
         </section>
 
-        {/* Вторая секция - Кнопка воспроизведения по центру экрана */}
-        <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-6 text-center z-10 max-w-[430px] mx-auto">
+        {/* Вторая секция - Приглашение и Кнопка */}
+        <section className="relative w-full flex flex-col items-center pt-16 pb-32 px-6 text-center z-10 max-w-[430px] mx-auto">
           
-          {/* Музыкальная кнопка, отцентрированная по центру экрана */}
-          <div className="relative z-30 flex flex-col items-center justify-center">
+          {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
+          <div className="relative mb-20 z-30 flex flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
@@ -218,18 +218,13 @@ export default function Home() {
             </button>
           </div>
 
-        </section>
-
-        {/* Третья секция - Текстовые блоки с большими расстояниями */}
-        <section className="relative w-full flex flex-col items-center py-20 px-6 text-center z-10 max-w-[430px] mx-auto">
-
           {/* Блок 1: Прокрутите вниз */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
-            className="my-36"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="mb-20"
           >
             <span className="font-serif text-[13px] uppercase tracking-[0.25em] text-muted block">
               Прокрутите вниз
@@ -238,11 +233,11 @@ export default function Home() {
 
           {/* Блок 2: Мы женимся! */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
-            className="my-36"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="mb-20"
           >
             <h2 className="font-cursive text-[64px] text-dark leading-none">
               Мы женимся!
@@ -251,11 +246,11 @@ export default function Home() {
 
           {/* Блок 3: И хотим разделить с вами этот важный день! */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.4, ease: "easeOut" }}
-            className="mt-36 mb-24"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="mb-12"
           >
             <p className="font-serif text-[14px] uppercase tracking-[0.18em] text-dark leading-relaxed max-w-[280px] mx-auto">
               И хотим разделить с вами этот важный день!
