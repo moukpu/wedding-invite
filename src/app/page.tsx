@@ -153,7 +153,7 @@ export default function Home() {
         <section className="relative w-full flex flex-col items-center pt-16 pb-32 px-6 text-center z-10 max-w-[430px] mx-auto">
           
           {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
-          <div className="relative mb-[110px] z-30 flex flex-col items-center justify-center">
+          <div className="relative mb-[160px] z-30 flex flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
