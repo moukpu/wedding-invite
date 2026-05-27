@@ -250,37 +250,39 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="w-full"
+            className="w-full relative z-20"
           >
             <p className="relative left-1/2 w-[calc(100vw-24px)] max-w-[430px] -translate-x-[calc(50%-24px)] font-serif text-[clamp(16px,4vw,18px)] uppercase tracking-[0.13em] text-dark leading-relaxed text-center">
               И хотим разделить с вами этот важный день!
             </p>
           </motion.div>
 
+          {/* Ветка сакуры между текстами (выходит слева, частично под верхним текстом) */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="relative -mt-8 -mb-12 h-[150px] w-screen max-w-[430px] overflow-hidden"
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="relative -mt-10 mb-6 h-[120px] w-full max-w-[430px] z-10 pointer-events-none select-none"
           >
             <Image
-              src="/images/sakura-branch-minimal-left.png"
-              alt="Sakura branch"
-              width={1024}
-              height={1024}
-              className="absolute left-[-72px] top-[-300px] h-auto w-[520px] max-w-none opacity-30 mix-blend-multiply"
+              src="/images/sakura-middle.png"
+              alt="Delicate sakura branch"
+              width={634}
+              height={419}
+              className="absolute left-0 top-1/2 -translate-y-1/2 h-auto w-[240px] max-w-none opacity-85"
             />
           </motion.div>
 
+          {/* Блок 4: Дорогие друзья и родные! */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="-mt-6 w-full"
+            className="-mt-2 w-full relative z-20"
           >
-            <p className="font-cursive text-[clamp(64px,17vw,78px)] text-dark/55 leading-[0.9] text-center">
+            <p className="font-cursive text-[clamp(64px,17vw,78px)] text-dark leading-[0.9] text-center">
               Дорогие друзья и
               <br />
               родные!
