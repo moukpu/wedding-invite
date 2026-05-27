@@ -344,13 +344,13 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
-              className="absolute right-[-45px] top-[10px] w-[80%] max-w-[340px] pointer-events-none select-none"
+              className="absolute right-[-30px] top-[10px] w-[80%] max-w-[340px] pointer-events-none select-none"
             >
               <Image
                 src="/images/petals-wind.png"
                 alt="Sakura petals in wind"
-                width={780}
-                height={590}
+                width={1024}
+                height={1024}
                 className="h-auto w-full object-contain origin-right"
               />
             </motion.div>
