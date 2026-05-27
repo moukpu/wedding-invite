@@ -150,7 +150,7 @@ export default function Home() {
         </section>
 
         {/* Вторая секция - Приглашение и Кнопка */}
-        <section className="relative w-full min-h-screen flex flex-col items-center justify-center gap-[clamp(56px,9vh,88px)] py-24 px-6 text-center z-10 max-w-[430px] mx-auto">
+        <section className="relative w-full min-h-screen flex flex-col items-center justify-start gap-[clamp(44px,7vh,72px)] pt-[clamp(32px,7vh,64px)] pb-24 px-6 text-center z-10 max-w-[430px] mx-auto">
           
           {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
           <div className="relative z-30 flex w-full flex-col items-center justify-center">
@@ -239,7 +239,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full"
           >
-            <h2 className="font-cursive text-[83px] text-dark leading-none text-center">
+            <h2 className="font-cursive text-[clamp(68px,18vw,83px)] text-dark leading-none text-center max-w-[360px] mx-auto">
               Мы женимся!
             </h2>
           </motion.div>
@@ -252,7 +252,7 @@ export default function Home() {
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="w-full"
           >
-            <p className="font-serif text-[18px] uppercase tracking-[0.18em] text-dark leading-relaxed max-w-[360px] mx-auto text-center">
+            <p className="font-serif text-[clamp(16px,4.4vw,18px)] uppercase tracking-[0.15em] text-dark leading-relaxed max-w-[330px] mx-auto text-center">
               И хотим разделить с вами этот важный день!
             </p>
           </motion.div>
