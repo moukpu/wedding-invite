@@ -7,12 +7,12 @@ export default function Home() {
   return (
     <>
       {/* Static Background - Mountains (outside main so fixed works with scroll) */}
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[65vh] overflow-hidden z-0">
+      <div className="pointer-events-none fixed inset-x-0 top-0 h-[65vh] overflow-hidden z-0 max-w-[430px] mx-auto">
         <Image
           src="/images/mountains-landscape.png"
           alt="Watercolor mountains background"
           fill
-          className="object-cover object-top scale-[1.08]"
+          className="object-cover object-center scale-[1.08]"
           priority
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0)_20%,rgba(250,246,241,1)_100%)]" />
