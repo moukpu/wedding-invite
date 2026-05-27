@@ -147,8 +147,13 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Music Play Button with rotating text */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center justify-center">
+        </section>
+
+        {/* Вторая секция - Приглашение и Кнопка */}
+        <section className="relative w-full flex flex-col items-center pt-16 pb-32 px-6 text-center z-10 max-w-[430px] mx-auto">
+          
+          {/* Музыкальная кнопка, перенесенная ниже */}
+          <div className="relative mb-24 z-30 flex flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
@@ -212,6 +217,45 @@ export default function Home() {
               </div>
             </button>
           </div>
+
+          {/* Блок 1: Прокрутите вниз */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="mb-14"
+          >
+            <span className="font-serif text-[13px] uppercase tracking-[0.25em] text-muted block">
+              Прокрутите вниз
+            </span>
+          </motion.div>
+
+          {/* Блок 2: Мы женимся! */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            className="mb-14"
+          >
+            <h2 className="font-cursive text-[64px] text-dark leading-none">
+              Мы женимся!
+            </h2>
+          </motion.div>
+
+          {/* Блок 3: И хотим разделить с вами этот важный день! */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
+            className="mb-12"
+          >
+            <p className="font-serif text-[14px] uppercase tracking-[0.18em] text-dark leading-relaxed max-w-[280px] mx-auto">
+              И хотим разделить с вами этот важный день!
+            </p>
+          </motion.div>
 
         </section>
       </main>
