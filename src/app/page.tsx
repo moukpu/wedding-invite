@@ -153,7 +153,7 @@ export default function Home() {
         <section className="relative w-full flex flex-col items-center pt-16 pb-32 px-6 text-center z-10 max-w-[430px] mx-auto">
           
           {/* Музыкальная кнопка, расположенная сразу под первой секцией */}
-          <div className="relative mb-20 z-30 flex flex-col items-center justify-center">
+          <div className="relative mb-[110px] z-30 flex flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
@@ -224,9 +224,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="mb-20"
+            className="mb-20 w-full"
           >
-            <span className="font-serif text-[13px] uppercase tracking-[0.25em] text-muted block">
+            <span className="font-serif text-[17px] uppercase tracking-[0.25em] text-muted block text-center">
               Прокрутите вниз
             </span>
           </motion.div>
@@ -237,9 +237,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="mb-20"
+            className="mb-20 w-full"
           >
-            <h2 className="font-cursive text-[64px] text-dark leading-none">
+            <h2 className="font-cursive text-[83px] text-dark leading-none text-center">
               Мы женимся!
             </h2>
           </motion.div>
@@ -250,9 +250,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className="mb-12"
+            className="mb-12 w-full"
           >
-            <p className="font-serif text-[14px] uppercase tracking-[0.18em] text-dark leading-relaxed max-w-[280px] mx-auto">
+            <p className="font-serif text-[18px] uppercase tracking-[0.18em] text-dark leading-relaxed max-w-[360px] mx-auto text-center">
               И хотим разделить с вами этот важный день!
             </p>
           </motion.div>
