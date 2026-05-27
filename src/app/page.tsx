@@ -148,10 +148,10 @@ export default function Home() {
           </div>
 
           {/* Music Play Button with rotating text */}
-          <div className="relative mt-12 mb-20 z-30 flex flex-col items-center justify-center">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center justify-center">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="relative w-36 h-36 flex items-center justify-center cursor-pointer group focus:outline-none"
+              className="relative w-28 h-28 flex items-center justify-center cursor-pointer group focus:outline-none"
               aria-label="Включить музыку"
             >
               {/* Rotating Circular Text */}
@@ -167,19 +167,19 @@ export default function Home() {
                 <svg viewBox="0 0 100 100" className="w-full h-full">
                   <path
                     id="circlePath"
-                    d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+                    d="M 50, 50 m -34, 0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0"
                     fill="transparent"
                   />
-                  <text className="fill-gold/80 font-serif tracking-[0.14em] text-[7.5px] uppercase font-light">
+                  <text className="fill-gold/80 font-serif tracking-[0.18em] text-[8.5px] uppercase font-light">
                     <textPath href="#circlePath" startOffset="0%">
-                      включить музыку • включить музыку • включить музыку •
+                      включить музыку • включить музыку •
                     </textPath>
                   </text>
                 </svg>
               </motion.div>
 
               {/* Inner Button Circle */}
-              <div className="relative w-16 h-16 rounded-full bg-cream border border-gold/40 flex items-center justify-center shadow-lg shadow-gold/5 group-hover:scale-105 transition-all duration-300 group-hover:border-gold/80">
+              <div className="relative w-14 h-14 rounded-full bg-cream border border-gold/40 flex items-center justify-center shadow-lg shadow-gold/5 group-hover:scale-105 transition-all duration-300 group-hover:border-gold/80">
                 {/* Visual pulse indicator when playing */}
                 {isPlaying && (
                   <>
@@ -195,7 +195,7 @@ export default function Home() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
-                    className="w-6 h-6 text-gold transition-colors duration-300"
+                    className="w-5 h-5 text-gold transition-colors duration-300"
                   >
                     <rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor" />
                     <rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" />
@@ -204,7 +204,7 @@ export default function Home() {
                   <svg
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    className="w-6 h-6 text-gold/80 group-hover:text-gold translate-x-[1px] transition-colors duration-300"
+                    className="w-5 h-5 text-gold/80 group-hover:text-gold translate-x-[1px] transition-colors duration-300"
                   >
                     <path d="M8 5v14l11-7z" />
                   </svg>
