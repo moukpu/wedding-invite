@@ -9,7 +9,7 @@ export default function Home() {
       {/* Static Background - Mountains (outside main so fixed works with scroll) */}
       <div className="pointer-events-none fixed inset-x-0 top-0 h-[65vh] overflow-hidden z-0">
         <Image
-          src="/images/mountains-subtle.png"
+          src="/images/mountains-landscape.png"
           alt="Watercolor mountains background"
           fill
           className="object-cover object-top scale-[1.08]"
