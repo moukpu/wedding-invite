@@ -627,68 +627,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Третья секция - Дресс-код */}
-        <section className="relative left-1/2 w-full min-h-[50vh] max-w-[430px] -translate-x-1/2 flex flex-col items-center justify-center pt-8 pb-[160px] px-6 text-center z-10">
-          {/* Заголовок */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="w-full relative z-20 flex flex-col items-center"
-          >
-            <h3 className="font-cursive text-[clamp(64px,17vw,78px)] text-dark leading-none text-center select-none">
-              Дресс-код:
-            </h3>
-          </motion.div>
 
-          {/* Текст */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
-            style={{ marginTop: "60px" }}
-            className="w-full relative z-20 flex flex-col items-center"
-          >
-            <p className="font-serif text-[clamp(15px,4vw,17px)] uppercase tracking-[0.11em] text-[#4A4138] leading-[1.9] text-center w-[95%]">
-              БУДЕМ РАДЫ, ЕСЛИ ВЫ<br/>
-              ПОДДЕРЖИТЕ ПАЛИТРУ НАШЕЙ<br/>
-              СВАДЬБЫ
-            </p>
-          </motion.div>
-
-          {/* Палитра */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-            style={{ marginTop: "76px" }}
-            className="w-full relative z-20 flex justify-center"
-          >
-            <div className="w-[88%] max-w-[340px]">
-              <svg viewBox="0 0 320 140" className="w-full h-auto drop-shadow-[0_15px_30px_rgba(78,67,58,0.08)]">
-                {/* Белая плашка */}
-                <rect x="0" y="0" width="320" height="140" rx="36" fill="white" />
-                
-                {/* 1-й ряд */}
-                <circle cx="42" cy="42" r="22" fill="#F4E2E6" />
-                <circle cx="101" cy="42" r="22" fill="#EED4CD" />
-                <circle cx="160" cy="42" r="22" fill="#CD7E8D" />
-                <circle cx="219" cy="42" r="22" fill="#9FA8CA" />
-                <circle cx="278" cy="42" r="22" fill="#E2BD6D" />
-
-                {/* 2-й ряд */}
-                <circle cx="42" cy="98" r="22" fill="#463330" />
-                <circle cx="101" cy="98" r="22" fill="#83765D" />
-                <circle cx="160" cy="98" r="22" fill="#76743E" />
-                <circle cx="219" cy="98" r="22" fill="#A2BD96" />
-                <circle cx="278" cy="98" r="22" fill="#EBE0CA" />
-              </svg>
-            </div>
-          </motion.div>
-        </section>
 
         {/* Четвертая секция - Анкета */}
         <section
