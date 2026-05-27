@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function Home() {
+  const [isPlaying, setIsPlaying] = useState(false);
   return (
     <>
       {/* Static Background - Mountains (outside main so fixed works with scroll) */}
@@ -18,7 +20,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(250,246,241,0)_20%,rgba(250,246,241,1)_100%)]" />
       </div>
 
-      <main className="invite-page min-h-[100vh] bg-cream/80 relative overflow-hidden">
+      <main className="invite-page min-h-[900vh] bg-cream/80 relative overflow-hidden">
 
         {/* Hero Section Container */}
         <section className="relative w-full min-h-screen flex flex-col items-center justify-between pt-32 pb-16 px-6 text-center z-10">
@@ -143,6 +145,72 @@ export default function Home() {
                 />
               </motion.div>
             </motion.div>
+          </div>
+
+          {/* Music Play Button with rotating text */}
+          <div className="relative mt-12 mb-20 z-30 flex flex-col items-center justify-center">
+            <button
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="relative w-36 h-36 flex items-center justify-center cursor-pointer group focus:outline-none"
+              aria-label="Включить музыку"
+            >
+              {/* Rotating Circular Text */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{
+                  duration: isPlaying ? 8 : 16,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+                className="absolute inset-0 w-full h-full pointer-events-none"
+              >
+                <svg viewBox="0 0 100 100" className="w-full h-full">
+                  <path
+                    id="circlePath"
+                    d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+                    fill="transparent"
+                  />
+                  <text className="fill-gold/80 font-serif tracking-[0.14em] text-[7.5px] uppercase font-light">
+                    <textPath href="#circlePath" startOffset="0%">
+                      включить музыку • включить музыку • включить музыку •
+                    </textPath>
+                  </text>
+                </svg>
+              </motion.div>
+
+              {/* Inner Button Circle */}
+              <div className="relative w-16 h-16 rounded-full bg-cream border border-gold/40 flex items-center justify-center shadow-lg shadow-gold/5 group-hover:scale-105 transition-all duration-300 group-hover:border-gold/80">
+                {/* Visual pulse indicator when playing */}
+                {isPlaying && (
+                  <>
+                    <span className="absolute inset-0 rounded-full bg-gold/10 animate-ping" />
+                    <span className="absolute inset-[-4px] rounded-full border border-gold/20 animate-pulse" />
+                  </>
+                )}
+                
+                {/* SVG Icons for Play/Pause */}
+                {isPlaying ? (
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    className="w-6 h-6 text-gold transition-colors duration-300"
+                  >
+                    <rect x="6" y="4" width="4" height="16" rx="1" fill="currentColor" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" fill="currentColor" />
+                  </svg>
+                ) : (
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="w-6 h-6 text-gold/80 group-hover:text-gold translate-x-[1px] transition-colors duration-300"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                )}
+              </div>
+            </button>
           </div>
 
         </section>
